@@ -212,7 +212,7 @@ END_OF_ROM      .DW 0
 ; You need to deduct MENU_HEAP_SIZE from the actual heap size below.
 ; Example: If your HEAP_SIZE would be 29696, then you write 29696-1024=28672
 ; instead, but when doing the sanity check calculations, you use 29696
-MENU_HEAP_SIZE  .EQU 1024
+MENU_HEAP_SIZE  .EQU 2048
 
 #ifndef RELEASE
 

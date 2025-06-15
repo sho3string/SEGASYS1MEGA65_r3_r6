@@ -30,9 +30,9 @@ entity main is
       -- Video output
       video_ce_o              : out std_logic;
       video_ce_ovl_o          : out std_logic;
-      video_red_o             : out std_logic_vector(7 downto 0);
-      video_green_o           : out std_logic_vector(7 downto 0);
-      video_blue_o            : out std_logic_vector(7 downto 0);
+      video_red_o             : out std_logic_vector(2 downto 0);
+      video_green_o           : out std_logic_vector(2 downto 0);
+      video_blue_o            : out std_logic_vector(1 downto 0);
       video_vs_o              : out std_logic;
       video_hs_o              : out std_logic;
       video_hblank_o          : out std_logic;
@@ -62,61 +62,188 @@ entity main is
       pot1_x_i                : in  std_logic_vector(7 downto 0);
       pot1_y_i                : in  std_logic_vector(7 downto 0);
       pot2_x_i                : in  std_logic_vector(7 downto 0);
-      pot2_y_i                : in  std_logic_vector(7 downto 0)
+      pot2_y_i                : in  std_logic_vector(7 downto 0);
+      
+       -- Dipswitches
+      dsw_a_i                 : in  std_logic_vector(7 downto 0);
+      dsw_b_i                 : in  std_logic_vector(7 downto 0);
+
+      dn_clk_i                : in  std_logic;
+      dn_addr_i               : in  std_logic_vector(17 downto 0);
+      dn_data_i               : in  std_logic_vector(7 downto 0);
+      dn_wr_i                 : in  std_logic;
+      
+      osm_control_i      : in  std_logic_vector(255 downto 0)
    );
 end entity main;
 
+
 architecture synthesis of main is
 
--- @TODO: Remove these demo core signals
-signal keyboard_n          : std_logic_vector(79 downto 0);
+signal keyboard_n        : std_logic_vector(79 downto 0);
+signal pause_cpu         : std_logic;
+signal status            : signed(31 downto 0);
+signal flip_screen       : std_logic;
+signal flip              : std_logic := '0';
+signal forced_scandoubler: std_logic;
+signal gamma_bus         : std_logic_vector(21 downto 0);
+signal audio             : std_logic_vector(15 downto 0);
+
+-- I/O board button press simulation ( active high )
+-- b[1]: user button
+-- b[0]: osd button
+
+signal buttons           : std_logic_vector(1 downto 0);
+signal reset             : std_logic  := reset_hard_i or reset_soft_i;
+
+-- highscore system
+signal hs_address       : std_logic_vector(15 downto 0);
+signal hs_data_in       : std_logic_vector(7 downto 0);
+signal hs_data_out      : std_logic_vector(7 downto 0);
+signal hs_write_enable  : std_logic;
+
+signal hs_pause         : std_logic;
+signal options          : std_logic_vector(1 downto 0);
+signal self_test        : std_logic;
+
+-- Game player inputs
+constant m65_1             : integer := 56; --Player 1 Start
+constant m65_2             : integer := 59; --Player 2 Start
+constant m65_5             : integer := 16; --Insert coin 1
+constant m65_6             : integer := 19; --Insert coin 2
+
+-- Offer some keyboard controls in addition to Joy 1 Controls
+constant m65_up_crsr       : integer := 73; --Player up
+constant m65_vert_crsr     : integer := 7;  --Player down
+constant m65_left_crsr     : integer := 74; --Player left
+constant m65_horz_crsr     : integer := 2;  --Player right
+constant m65_left_shift    : integer := 15; --Trigger 1
+constant m65_mega          : integer := 61; --Trigger 2
+constant m65_p             : integer := 41; --Pause button
+constant m65_s             : integer := 13; --Service 1
+constant m65_d             : integer := 18; --Service Mode
+constant m65_help          : integer := 67; --Help key
+
+-- Menu controls
+
+constant C_MENU_OSMPAUSE   : natural := 2;
+constant C_MENU_FLIP       : natural := 3;
+
+constant C_MENU_SEGAWB_H1  : integer := 32;
+constant C_MENU_SEGAWB_H2  : integer := 33;
+constant C_MENU_SEGAWB_H4  : integer := 34;
+constant C_MENU_SEGAWB_H8  : integer := 35;
+constant C_MENU_SEGAWB_H16 : integer := 36;
+
+constant C_MENU_SEGAWB_V1  : integer := 42;
+constant C_MENU_SEGAWB_V2  : integer := 43;
+constant C_MENU_SEGAWB_V4  : integer := 44;
+
+signal PCLK_EN             : std_logic;
+signal HPOS,VPOS           : std_logic_vector(8 downto 0);
+signal POUT                : std_logic_vector(7 downto 0);
+signal oRGB                : std_logic_vector(7 downto 0);
+signal HOFFS               : std_logic_vector(4 downto 0);
+signal VOFFS               : std_logic_vector(2 downto 0);
 
 begin
 
-   -- @TODO: Add the actual MiSTer core here
-   -- The demo core's purpose is to show a test image and to make sure, that the MiSTer2MEGA65 framework
-   -- can be synthesized and run stand-alone without an actual MiSTer core being there, yet
-   i_democore : entity work.democore
+    audio_left_o(15) <= not audio(15);
+    audio_left_o(14 downto 0) <= signed(audio(14 downto 0));
+    audio_right_o(15) <= not audio(15);
+    audio_right_o(14 downto 0) <= signed(audio(14 downto 0));
+   
+    options(0)  <= osm_control_i(C_MENU_OSMPAUSE);
+    flip_screen <= osm_control_i(C_MENU_FLIP);
+
+    -- video
+    PCLK_EN     <=  video_ce_o;
+    oRGB        <=  video_blue_o & video_green_o & video_red_o;
+    
+    -- video crt offsets
+    HOFFS <=   osm_control_i(C_MENU_SEGAWB_H16)  &
+               osm_control_i(C_MENU_SEGAWB_H8)   &
+               osm_control_i(C_MENU_SEGAWB_H4)   &
+               osm_control_i(C_MENU_SEGAWB_H2)   &
+               osm_control_i(C_MENU_SEGAWB_H1);
+               
+    VOFFS <=   osm_control_i(C_MENU_SEGAWB_V4)   &
+               osm_control_i(C_MENU_SEGAWB_V2)   &
+               osm_control_i(C_MENU_SEGAWB_V1);
+               
+               
+    i_hvgen : entity work.hvgen
       port map (
-         clk_main_i           => clk_main_i,
+         HPOS       => HPOS,
+         VPOS       => VPOS,
+         CLK        => clk_main_i,
+         PCLK_EN    => PCLK_EN,
+         iRGB       => POUT,
+         oRGB       => oRGB,
+         HBLK       => video_hblank_o,
+         VBLK       => video_vblank_o,
+         HSYN       => video_hs_o,
+         VSYN       => video_vs_o,
+         H240       => '0',
+         HOFFS      => "000"   & HOFFS,
+         VOFFS      => "00000" & VOFFS 
+     );
 
-         reset_i              => reset_soft_i or reset_hard_i,       -- long and short press of reset button mean the same
-         pause_i              => pause_i,
+    i_GameCore : entity work.segasystem1
+    port map (
+    
+    clk48M     => clk_main_i,
+    reset      => reset,
+    
+    INP0(7)   => keyboard_n(m65_left_crsr)  and joy_1_left_n_i, -- left
+    INP0(6)    => keyboard_n(m65_horz_crsr)  and joy_1_right_n_i,-- right      
+    INP0(5)    => keyboard_n(m65_up_crsr)    and joy_1_up_n_i,   -- up        
+    INP0(4)    => keyboard_n(m65_vert_crsr)  and joy_1_down_n_i,  -- down  
+    INP0(3)    => '1',
+    INP0(2)    => keyboard_n(m65_left_shift) and joy_1_fire_n_i, -- trigger 2
+    INP0(1)    => keyboard_n(m65_mega),                          -- trigger 1   
+    INP0(0)    => '1',                                           -- trigger 3
+    
+    INP1(7)    => keyboard_n(m65_left_crsr)  and joy_2_left_n_i,  -- left
+    INP1(6)    => keyboard_n(m65_horz_crsr)  and joy_2_right_n_i, -- right      
+    INP1(5)    => keyboard_n(m65_up_crsr)    and joy_2_up_n_i,    -- up        
+    INP1(4)    => keyboard_n(m65_vert_crsr)  and joy_2_down_n_i,  -- down    
+    INP1(3)    => '1',
+    INP1(2)    => keyboard_n(m65_left_shift) and joy_2_fire_n_i,  -- trigger 2
+    INP1(1)    => keyboard_n(m65_mega),                           -- trigger 1   
+    INP1(0)    => '1',                                            -- trigger 3
+    
+    INP2(7)    => '1',                       -- unknown
+    INP2(6)    => '1',                       -- unknown
+    INP2(5)    => keyboard_n(m65_2),         -- start 2
+    INP2(4)    => keyboard_n(m65_1),         -- start 1                           
+    INP2(3)    => keyboard_n(m65_s),         -- service button
+    INP2(2)    => keyboard_n(m65_d),         -- service mode
+    INP2(1)    => keyboard_n(m65_6),         -- coin 2
+    INP2(0)    => keyboard_n(m65_5),         -- coin 1
+    
+    DSW0       => not dsw_a_i,
+    DSW1       => not dsw_b_i,
+    
+    PH         => HPOS,
+    PV         => VPOS,
+    PCLK_EN    => PCLK_EN,
+    POUT       => POUT,
+    SOUT       => audio,
 
-         ball_col_rgb_i       => x"EE4020",                          -- ball color (RGB): orange
-         paddle_speed_i       => x"1",                               -- paddle speed is about 50 pixels / sec (due to 50 Hz)
-
-         keyboard_n_i         => keyboard_n,                         -- move the paddle with the cursor left/right keys...
-         joy_up_n_i           => joy_1_up_n_i,                       -- ... or move the paddle with a joystick in port #1
-         joy_down_n_i         => joy_1_down_n_i,
-         joy_left_n_i         => joy_1_left_n_i,
-         joy_right_n_i        => joy_1_right_n_i,
-         joy_fire_n_i         => joy_1_fire_n_i,
-
-         vga_ce_o             => video_ce_o,
-         vga_red_o            => video_red_o,
-         vga_green_o          => video_green_o,
-         vga_blue_o           => video_blue_o,
-         vga_vs_o             => video_vs_o,
-         vga_hs_o             => video_hs_o,
-         vga_hblank_o         => video_hblank_o,
-         vga_vblank_o         => video_vblank_o,
-
-         audio_left_o         => audio_left_o,
-         audio_right_o        => audio_right_o
-      ); -- i_democore
-
-   -- On video_ce_o and video_ce_ovl_o: You have an important @TODO when porting a core:
-   -- video_ce_o: You need to make sure that video_ce_o divides clk_main_i such that it transforms clk_main_i
-   --             into the pixelclock of the core (means: the core's native output resolution pre-scandoubler)
-   -- video_ce_ovl_o: Clock enable for the OSM overlay and for sampling the core's (retro) output in a way that
-   --             it is displayed correctly on a "modern" analog input device: Make sure that video_ce_ovl_o
-   --             transforms clk_main_o into the post-scandoubler pixelclock that is valid for the target
-   --             resolution specified by VGA_DX/VGA_DY (globals.vhd)
-   -- video_retro15kHz_o: '1', if the output from the core (post-scandoubler) in the retro 15 kHz analog RGB mode.
-   --             Hint: Scandoubler off does not automatically mean retro 15 kHz on.
-   video_ce_ovl_o <= video_ce_o;
-
+    ROMCL      => dn_clk_i,
+    ROMAD      => dn_addr_i,
+    ROMDT      => dn_data_i,
+    ROMEN      => dn_wr_i,
+    
+    PAUSE_N    => not (pause_cpu or pause_i),
+    HSAD       => hs_address,
+    HSDO       => hs_data_out,
+    HSDI       => hs_data_in,
+    HSWE       => hs_write_enable
+ 
+    );
+   
    -- @TODO: Keyboard mapping and keyboard behavior
    -- Each core is treating the keyboard in a different way: Some need low-active "matrices", some
    -- might need small high-active keyboard memories, etc. This is why the MiSTer2MEGA65 framework
