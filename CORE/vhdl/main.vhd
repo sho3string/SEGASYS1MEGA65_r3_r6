@@ -199,10 +199,10 @@ begin
     clk48M     => clk_main_i,
     reset      => reset,
     
-    INP0(7)   => keyboard_n(m65_left_crsr)  and joy_1_left_n_i, -- left
+    INP0(7)    => keyboard_n(m65_left_crsr)  and joy_1_left_n_i, -- left
     INP0(6)    => keyboard_n(m65_horz_crsr)  and joy_1_right_n_i,-- right      
     INP0(5)    => keyboard_n(m65_up_crsr)    and joy_1_up_n_i,   -- up        
-    INP0(4)    => keyboard_n(m65_vert_crsr)  and joy_1_down_n_i,  -- down  
+    INP0(4)    => keyboard_n(m65_vert_crsr)  and joy_1_down_n_i, -- down  
     INP0(3)    => '1',
     INP0(2)    => keyboard_n(m65_left_shift) and joy_1_fire_n_i, -- trigger 2
     INP0(1)    => keyboard_n(m65_mega),                          -- trigger 1   
