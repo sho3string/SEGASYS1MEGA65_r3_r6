@@ -156,19 +156,17 @@ constant C_DEV_WB_PROM               : std_logic_vector(15 downto 0) := x"010B";
 constant C_DEV_WB_XTBL               : std_logic_vector(15 downto 0) := x"010C";     -- XOR TABLE
 --constant C_DEV_WB_STBL               : std_logic_vector(15 downto 0) := x"010D";     -- SWAP TABLE
 
-
-
 constant ROM1_MAIN1_CPU_ROM          : string  := "arcade/pitfall2/rom1.bin" & ENDSTR;       -- z80 cpu 32kb -- encrypted
-constant ROM2_MAIN2_CPU_ROM          : string  := "arcade/pitfall2/epr-6458a.96"  & ENDSTR;  -- z80 cpu 16kb -- non encrypted
+constant ROM2_MAIN2_CPU_ROM          : string  := "arcade/pitfall2/epr6458a.96"  & ENDSTR;   -- z80 cpu 16kb -- non encrypted
 constant ROM1_SND_CPU_ROM            : string  := "arcade/pitfall2/epr-6462.120" & ENDSTR;   -- z80 snd cpu
 constant ROM1_SND_CPU_ROM_1          : string  := "arcade/pitfall2/epr-6462.120" & ENDSTR;   -- z80 snd cpu
 constant SPR_01_ROM                  : string  := "arcade/pitfall2/sprites.bin" & ENDSTR;    -- sprites 64kb
-constant TILE_01_ROM                 : string  := "arcade/pitfall2/epr-6474a.62" & ENDSTR;   -- tiles
-constant TILE_02_ROM                 : string  := "arcade/pitfall2/epr-6472a.64" & ENDSTR;   -- tiles
-constant TILE_03_ROM                 : string  := "arcade/pitfall2/epr-6470a.66" & ENDSTR;   -- tiles
-constant TILE_04_ROM                 : string  := "arcade/pitfall2/epr-6473a.61" & ENDSTR;   -- tiles
-constant TILE_05_ROM                 : string  := "arcade/pitfall2/epr-6471a.63" & ENDSTR;   -- tiles
-constant TILE_06_ROM                 : string  := "arcade/pitfall2/epr-6469a.65" & ENDSTR;   -- tiles
+constant TILE_01_ROM                 : string  := "arcade/pitfall2/epr6474a.62" & ENDSTR;    -- tiles
+constant TILE_02_ROM                 : string  := "arcade/pitfall2/epr6472a.64" & ENDSTR;    -- tiles
+constant TILE_03_ROM                 : string  := "arcade/pitfall2/epr6470a.66" & ENDSTR;    -- tiles
+constant TILE_04_ROM                 : string  := "arcade/pitfall2/epr6473a.61" & ENDSTR;    -- tiles
+constant TILE_05_ROM                 : string  := "arcade/pitfall2/epr6471a.63" & ENDSTR;    -- tiles
+constant TILE_06_ROM                 : string  := "arcade/pitfall2/epr6469a.65" & ENDSTR;    -- tiles
 constant LOOKUP_PROM                 : string  := "arcade/pitfall2/pr-5317.76" & ENDSTR;     -- lookup proms
 constant XOR_TABLE                   : string  := "arcade/pitfall2/xortable.bin" & ENDSTR;   -- xor table    -- 128 bytes
 --constant SWP_TABLE                   : string  := "arcade/pitfall2/swptable.bin" & ENDSTR; -- swap table   -- 128 bytes
