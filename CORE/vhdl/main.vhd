@@ -148,12 +148,6 @@ signal VOFFS               : std_logic_vector(2 downto 0);
 
 begin
 
-    --audio_left_o(15) <= not audio(15);
-    --audio_left_o(14 downto 0) <= signed(audio(14 downto 0));
-    --audio_right_o(15) <= not audio(15);
-    --audio_right_o(14 downto 0) <= signed(audio(14 downto 0));
-    
-    
     audio_left_o  <= signed(unsigned(audio)) - to_signed(32768, 16);
     audio_right_o <= signed(unsigned(audio)) - to_signed(32768, 16);
    
@@ -227,8 +221,8 @@ begin
     INP2(0)    => keyboard_n(m65_5),         -- coin 1
     
     system2    => '1',
-    rowscroll  => '1',
-    quirks     => 0,
+    rowscroll  => '0', -- global scroll on.
+    quirks     =>  0,
     
     show_banks => '0',
 	flip_screen=> '0',

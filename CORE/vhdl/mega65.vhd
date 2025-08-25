@@ -578,7 +578,6 @@ begin
          -- 0x10000 - 0x17fff ( 00010 000000000000000 )
          when C_DEV_WB_CPU_ROM2 => -- wbmlvcd.ic91 
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              --qnice_dn_addr <= "001" & qnice_dev_addr_i(15 downto 0); -- combine them instead if below doesn't work
               qnice_dn_addr <= "0010" & qnice_dev_addr_i(14 downto 0);
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
 
