@@ -76,13 +76,13 @@ type WHS_RECORD_ARRAY_TYPE is array (0 to WHS_RECORDS - 1) of WHS_RECORD_TYPE;
 
 constant SCR_WELCOME : string :=
 
-   "Pitfall-II V0.5.0 (beta)\n" &
-   "------------------------\n" &
+   "Wonder Boy- Monderland V0.5.0 (beta)\n" &
+   "------------------------------------\n" &
    "\n" &
    "MiSTer port done by Muse in 2025\n\n" &
 
    -- We are not insisting. But it would be nice if you gave us credit for MiSTer2MEGA65 by leaving these lines in
-   "Powered by MiSTer2MEGA65 Ver 1.0\n"   &
+   "Powered by MiSTer2MEGA65 Ver 2.0.1\n" &
    "By sy2002 and MJoergen in 2022\n"     &
    "\n\n"                                 &
    "Credits  : Press '5' or '6'\n"        & 
@@ -185,8 +185,8 @@ constant SEL_CFG_FILE      : std_logic_vector(15 downto 0) := x"0101";
 
 -- START YOUR CONFIGURATION BELOW THIS LINE
 
-constant DIR_START         : string := "/arcade/pitfall2";
-constant CFG_FILE          : string := "/arcade/upndown/pf2fg";
+constant DIR_START         : string := "/arcade/wbml";
+constant CFG_FILE          : string := "/arcade/wbml/wbmlcfg";
 
 --------------------------------------------------------------------------------------------------------------------
 -- General configuration settings: Reset, Pause, OSD behavior, Ascal, etc. (Selector 0x0110)
@@ -331,7 +331,7 @@ constant OPTM_DX           : natural := 23;
 constant OPTM_DY           : natural := 21;
 
 constant OPTM_ITEMS        : string :=
-   " Pitfall II\n"          &
+   " WMBL\n"                &
    "\n"                     &
    " Pause when OSD open\n" &
    " Flip joystick ports\n" &

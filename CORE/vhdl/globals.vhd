@@ -143,8 +143,8 @@ constant C_CRTROMS_MAN           : crtrom_buf_array := ( x"EEEE", x"EEEE",
 
 constant C_DEV_WB_CPU_ROM1           : std_logic_vector(15 downto 0) := x"0100";     -- CPU1 ROM 
 constant C_DEV_WB_CPU_ROM2           : std_logic_vector(15 downto 0) := x"0101";     -- CPU2 ROM 
-constant C_DEV_WB_SND                : std_logic_vector(15 downto 0) := x"0102";     -- SOUNDCPU
-constant C_DEV_WB_SND_1              : std_logic_vector(15 downto 0) := x"0103";     -- SOUNDCPU
+constant C_DEV_WB_CPU_ROM3           : std_logic_vector(15 downto 0) := x"0102";     -- CPU3 ROM 
+constant C_DEV_WB_SND                : std_logic_vector(15 downto 0) := x"0103";     -- SOUNDCPU
 constant C_DEV_WB_SPR1               : std_logic_vector(15 downto 0) := x"0104";     -- SPRITES 1
 constant C_DEV_WB_TIL1               : std_logic_vector(15 downto 0) := x"0105";     -- TILES 1
 constant C_DEV_WB_TIL2               : std_logic_vector(15 downto 0) := x"0106";     -- TILES 2
@@ -153,30 +153,34 @@ constant C_DEV_WB_TIL4               : std_logic_vector(15 downto 0) := x"0108";
 constant C_DEV_WB_TIL5               : std_logic_vector(15 downto 0) := x"0109";     -- TILES 5
 constant C_DEV_WB_TIL6               : std_logic_vector(15 downto 0) := x"010A";     -- TILES 6
 constant C_DEV_WB_PROM               : std_logic_vector(15 downto 0) := x"010B";     -- PROMS
-constant C_DEV_WB_XTBL               : std_logic_vector(15 downto 0) := x"010C";     -- XOR TABLE
---constant C_DEV_WB_STBL               : std_logic_vector(15 downto 0) := x"010D";     -- SWAP TABLE
+constant C_DEV_WB_PROM_R             : std_logic_vector(15 downto 0) := x"010C";     -- PROMS R
+constant C_DEV_WB_PROM_G             : std_logic_vector(15 downto 0) := x"010D";     -- PROMS G
+constant C_DEV_WB_PROM_B             : std_logic_vector(15 downto 0) := x"010E";     -- PROMS B
+constant C_DEV_WB_XTBL               : std_logic_vector(15 downto 0) := x"010F";     -- DEC TABLE
 
-constant ROM1_MAIN1_CPU_ROM          : string  := "arcade/pitfall2/rom1.bin" & ENDSTR;       -- z80 cpu 32kb -- encrypted
-constant ROM2_MAIN2_CPU_ROM          : string  := "arcade/pitfall2/epr6458a.96"  & ENDSTR;   -- z80 cpu 16kb -- non encrypted
-constant ROM1_SND_CPU_ROM            : string  := "arcade/pitfall2/epr-6462.120" & ENDSTR;   -- z80 snd cpu
-constant ROM1_SND_CPU_ROM_1          : string  := "arcade/pitfall2/epr-6462.120" & ENDSTR;   -- z80 snd cpu
-constant SPR_01_ROM                  : string  := "arcade/pitfall2/sprites.bin" & ENDSTR;    -- sprites 64kb
-constant TILE_01_ROM                 : string  := "arcade/pitfall2/epr6474a.62" & ENDSTR;    -- tiles
-constant TILE_02_ROM                 : string  := "arcade/pitfall2/epr6472a.64" & ENDSTR;    -- tiles
-constant TILE_03_ROM                 : string  := "arcade/pitfall2/epr6470a.66" & ENDSTR;    -- tiles
-constant TILE_04_ROM                 : string  := "arcade/pitfall2/epr6473a.61" & ENDSTR;    -- tiles
-constant TILE_05_ROM                 : string  := "arcade/pitfall2/epr6471a.63" & ENDSTR;    -- tiles
-constant TILE_06_ROM                 : string  := "arcade/pitfall2/epr6469a.65" & ENDSTR;    -- tiles
-constant LOOKUP_PROM                 : string  := "arcade/pitfall2/pr-5317.76" & ENDSTR;     -- lookup proms
-constant XOR_TABLE                   : string  := "arcade/pitfall2/xortable.bin" & ENDSTR;   -- xor table    -- 128 bytes
---constant SWP_TABLE                   : string  := "arcade/pitfall2/swptable.bin" & ENDSTR; -- swap table   -- 128 bytes
+-- wbmlvcd_pad.ic90, wbmlvcd_pad.ic91, wbmlvcd_pad.ic92 - 64kb
+constant ROM1_MAIN1_CPU_ROM          : string  := "arcade/wbml/wbmlvcd.ic90"  & ENDSTR;  -- z80 cpu 32kb -- non encrypted
+constant ROM1_MAIN2_CPU_ROM          : string  := "arcade/wbml/wbmlvcd.ic91"  & ENDSTR;  -- z80 cpu 32kb -- non encrypted
+constant ROM1_MAIN3_CPU_ROM          : string  := "arcade/wbml/wbmlvcd.ic92"  & ENDSTR;  -- z80 cpu 32kb -- non encrypted
+constant ROM1_SND_CPU_ROM            : string  := "arcade/wbml/epr11037.126" & ENDSTR;   -- z80 snd 32kb
+constant SPR_01_ROM                  : string  := "arcade/wbml/sprites.bin" & ENDSTR;    -- sprites 64kb
+constant TILE_01_ROM                 : string  := "arcade/wbml/vc.ic4_1" & ENDSTR;       -- tiles, split i think
+constant TILE_02_ROM                 : string  := "arcade/wbml/vc.ic4_2" & ENDSTR;       -- tiles
+constant TILE_03_ROM                 : string  := "arcade/wbml/vc.ic5_1" & ENDSTR;       -- tiles
+constant TILE_04_ROM                 : string  := "arcade/wbml/vc.ic5_2" & ENDSTR;       -- tiles
+constant TILE_05_ROM                 : string  := "arcade/wbml/vc.ic6_1" & ENDSTR;       -- tiles
+constant TILE_06_ROM                 : string  := "arcade/wbml/vc.ic6_2" & ENDSTR;       -- tiles
+constant LOOKUP_PROM                 : string  := "arcade/wbml/pr5317.37" & ENDSTR;      -- lookup proms
+constant COL_LUT_R                   : string  := "arcade/wbml/pr11025.14" & ENDSTR;     -- MMI 63S141AN - palette red component
+constant COL_LUT_G                   : string  := "arcade/wbml/pr5317.37" & ENDSTR;      -- MMI 63S141AN - palette green component
+constant COL_LUT_B                   : string  := "arcade/wbml/pr11024.8" & ENDSTR;      -- MMI 63S141AN - palette blue component
+constant DEC_TABLE                   : string  := "arcade/wbml/dectable.bin" & ENDSTR;   -- DEC table -- 256 bytes
 
-
-constant CPU_ROM1_MAIN_START          : std_logic_vector(15 downto 0) := X"0000";
+constant SND_CPU_MAIN_START           : std_logic_vector(15 downto 0) := X"0000";
+constant CPU_ROM1_MAIN_START          : std_logic_vector(15 downto 0) := SND_CPU_MAIN_START  + ROM1_SND_CPU_ROM'length;
 constant CPU_ROM2_MAIN_START          : std_logic_vector(15 downto 0) := CPU_ROM1_MAIN_START + ROM1_MAIN1_CPU_ROM'length;
-constant SND_CPU_MAIN_START           : std_logic_vector(15 downto 0) := CPU_ROM2_MAIN_START + ROM2_MAIN2_CPU_ROM'length;
-constant SND_CPU_MAIN_START_1         : std_logic_vector(15 downto 0) := SND_CPU_MAIN_START  + ROM1_SND_CPU_ROM'length;
-constant SPR1_MAIN_START              : std_logic_vector(15 downto 0) := SND_CPU_MAIN_START_1+ ROM1_SND_CPU_ROM_1'length;
+constant CPU_ROM3_MAIN_START          : std_logic_vector(15 downto 0) := CPU_ROM2_MAIN_START + ROM1_MAIN2_CPU_ROM'length;
+constant SPR1_MAIN_START              : std_logic_vector(15 downto 0) := CPU_ROM3_MAIN_START + ROM1_MAIN3_CPU_ROM'length;
 constant TILE1_MAIN_START             : std_logic_vector(15 downto 0) := SPR1_MAIN_START     + SPR_01_ROM'length;
 constant TILE2_MAIN_START             : std_logic_vector(15 downto 0) := TILE1_MAIN_START    + TILE_01_ROM'length;
 constant TILE3_MAIN_START             : std_logic_vector(15 downto 0) := TILE2_MAIN_START    + TILE_02_ROM'length;
@@ -184,25 +188,31 @@ constant TILE4_MAIN_START             : std_logic_vector(15 downto 0) := TILE3_M
 constant TILE5_MAIN_START             : std_logic_vector(15 downto 0) := TILE4_MAIN_START    + TILE_04_ROM'length;
 constant TILE6_MAIN_START             : std_logic_vector(15 downto 0) := TILE5_MAIN_START    + TILE_05_ROM'length;
 constant LOOKUP_MAIN_START            : std_logic_vector(15 downto 0) := TILE6_MAIN_START    + TILE_06_ROM'length;
-constant XOR_MAIN_START               : std_logic_vector(15 downto 0) := LOOKUP_MAIN_START   + LOOKUP_PROM'length;
---constant SWP_MAIN_START               : std_logic_vector(15 downto 0) := XOR_MAIN_START      + XOR_TABLE'length;
-
+constant PROMR_MAIN_START             : std_logic_vector(15 downto 0) := LOOKUP_MAIN_START   + LOOKUP_PROM'length;
+constant PROMG_MAIN_START             : std_logic_vector(15 downto 0) := PROMR_MAIN_START    + COL_LUT_R'length;
+constant PROMB_MAIN_START             : std_logic_vector(15 downto 0) := PROMG_MAIN_START    + COL_LUT_G'length;
+constant DECTBL_MAIN_START            : std_logic_vector(15 downto 0) := PROMB_MAIN_START    + COL_LUT_B'length;
 
 -- M2M framework constants
-constant C_CRTROMS_AUTO_NUM      : natural := 13; -- Amount of automatically loadable ROMs and carts, if more than 3: also adjust CRTROM_MAN_MAX in M2M/rom/shell_vars.asm, Needs to be in sync with config.vhd. Maximum is 16
-constant C_CRTROMS_AUTO_NAMES    : string  := ROM1_MAIN1_CPU_ROM & ROM2_MAIN2_CPU_ROM &
-                                              ROM1_SND_CPU_ROM & ROM1_SND_CPU_ROM_1 &
+constant C_CRTROMS_AUTO_NUM      : natural := 16; -- Amount of automatically loadable ROMs and carts, if more than 3: also adjust CRTROM_MAN_MAX in M2M/rom/shell_vars.asm, Needs to be in sync with config.vhd. Maximum is 16
+constant C_CRTROMS_AUTO_NAMES    : string  := ROM1_SND_CPU_ROM &                            -- 0x00000 - 0x7fff
+                                              ROM1_MAIN1_CPU_ROM &                          -- 0x8000  - 0x1fff
+                                              ROM1_MAIN2_CPU_ROM &                          -- 0x10000 - 0x17fff
+                                              ROM1_MAIN3_CPU_ROM &                          -- 0x18000 - 0xfffff
                                               SPR_01_ROM &
-                                              TILE_01_ROM & TILE_02_ROM & TILE_03_ROM & TILE_04_ROM & TILE_05_ROM & TILE_06_ROM &
-                                              LOOKUP_PROM &
-                                              XOR_TABLE & --SWP_TABLE &
+                                              TILE_01_ROM & TILE_02_ROM & TILE_03_ROM & 
+                                              TILE_04_ROM & TILE_05_ROM & TILE_06_ROM &
+                                              LOOKUP_PROM & 
+                                              COL_LUT_R & COL_LUT_G & COL_LUT_B &
+                                              DEC_TABLE &
+                                              ROM1_MAIN1_CPU_ROM &
                                               ENDSTR;
                                               
 constant C_CRTROMS_AUTO          : crtrom_buf_array := ( 
+      C_CRTROMTYPE_DEVICE, C_DEV_WB_SND,      C_CRTROMTYPE_MANDATORY, SND_CPU_MAIN_START,
       C_CRTROMTYPE_DEVICE, C_DEV_WB_CPU_ROM1, C_CRTROMTYPE_MANDATORY, CPU_ROM1_MAIN_START,
       C_CRTROMTYPE_DEVICE, C_DEV_WB_CPU_ROM2, C_CRTROMTYPE_MANDATORY, CPU_ROM2_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_SND,      C_CRTROMTYPE_MANDATORY, SND_CPU_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_SND_1,    C_CRTROMTYPE_MANDATORY, SND_CPU_MAIN_START_1,
+      C_CRTROMTYPE_DEVICE, C_DEV_WB_CPU_ROM3, C_CRTROMTYPE_MANDATORY, CPU_ROM3_MAIN_START,  
       C_CRTROMTYPE_DEVICE, C_DEV_WB_SPR1,     C_CRTROMTYPE_MANDATORY, SPR1_MAIN_START,
       C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL1,     C_CRTROMTYPE_MANDATORY, TILE1_MAIN_START,
       C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL2,     C_CRTROMTYPE_MANDATORY, TILE2_MAIN_START,
@@ -211,8 +221,10 @@ constant C_CRTROMS_AUTO          : crtrom_buf_array := (
       C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL5,     C_CRTROMTYPE_MANDATORY, TILE5_MAIN_START,
       C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL6,     C_CRTROMTYPE_MANDATORY, TILE6_MAIN_START,
       C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM,     C_CRTROMTYPE_MANDATORY, LOOKUP_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_XTBL,     C_CRTROMTYPE_MANDATORY, XOR_MAIN_START,
-      --C_CRTROMTYPE_DEVICE, C_DEV_WB_STBL,     C_CRTROMTYPE_MANDATORY, SWP_MAIN_START,              
+      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM_R,   C_CRTROMTYPE_MANDATORY, PROMR_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM_G,   C_CRTROMTYPE_MANDATORY, PROMG_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM_B,   C_CRTROMTYPE_MANDATORY, PROMB_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_WB_XTBL,     C_CRTROMTYPE_MANDATORY, DECTBL_MAIN_START,  
                                                          x"EEEE");                     -- Always finish the array using x"EEEE"
 
 ----------------------------------------------------------------------------------------------------------

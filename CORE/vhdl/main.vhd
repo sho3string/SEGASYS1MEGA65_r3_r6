@@ -30,9 +30,9 @@ entity main is
       -- Video output
       video_ce_o              : out std_logic;
       video_ce_ovl_o          : out std_logic;
-      video_red_o             : out std_logic_vector(2 downto 0);
-      video_green_o           : out std_logic_vector(2 downto 0);
-      video_blue_o            : out std_logic_vector(1 downto 0);
+      video_red_o             : out std_logic_vector(3 downto 0);
+      video_green_o           : out std_logic_vector(3 downto 0);
+      video_blue_o            : out std_logic_vector(3 downto 0);
       video_vs_o              : out std_logic;
       video_hs_o              : out std_logic;
       video_hblank_o          : out std_logic;
@@ -69,7 +69,7 @@ entity main is
       dsw_b_i                 : in  std_logic_vector(7 downto 0);
 
       dn_clk_i                : in  std_logic;
-      dn_addr_i               : in  std_logic_vector(17 downto 0);
+      dn_addr_i               : in  std_logic_vector(18 downto 0);
       dn_data_i               : in  std_logic_vector(7 downto 0);
       dn_wr_i                 : in  std_logic;
       
@@ -141,8 +141,8 @@ constant C_MENU_SEGAWB_V4  : integer := 44;
 
 signal PCLK_EN             : std_logic;
 signal HPOS,VPOS           : std_logic_vector(8 downto 0);
-signal POUT                : std_logic_vector(7 downto 0);
-signal oRGB                : std_logic_vector(7 downto 0);
+signal POUT                : std_logic_vector(11 downto 0);
+signal oRGB                : std_logic_vector(11 downto 0);
 signal HOFFS               : std_logic_vector(4 downto 0);
 signal VOFFS               : std_logic_vector(2 downto 0);
 
@@ -196,7 +196,7 @@ begin
     i_GameCore : entity work.segasystem1
     port map (
     
-    clk48M     => clk_main_i,
+    clk40M     => clk_main_i,
     reset      => reset,
     
     INP0(7)    => keyboard_n(m65_left_crsr)  and joy_1_left_n_i, -- left
@@ -225,6 +225,17 @@ begin
     INP2(2)    => keyboard_n(m65_d),         -- service mode
     INP2(1)    => keyboard_n(m65_6),         -- coin 2
     INP2(0)    => keyboard_n(m65_5),         -- coin 1
+    
+    system2    => '1',
+    rowscroll  => '1',
+    quirks     => 0,
+    
+    show_banks => '0',
+	flip_screen=> '0',
+	test1      => 0,
+	test2      => 0,
+	test3      => 0,
+	test4      => 0,
     
     DSW0       => not dsw_a_i,
     DSW1       => not dsw_b_i,

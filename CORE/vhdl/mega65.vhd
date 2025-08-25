@@ -228,9 +228,9 @@ signal main_clk               : std_logic;               -- Core main clock
 signal main_rst               : std_logic;
 
 -- Unprocessed video output from the Wonderboy core
-signal main_video_red      : std_logic_vector(2 downto 0);   
-signal main_video_green    : std_logic_vector(2 downto 0);
-signal main_video_blue     : std_logic_vector(1 downto 0);
+signal main_video_red      : std_logic_vector(3 downto 0);   
+signal main_video_green    : std_logic_vector(3 downto 0);
+signal main_video_blue     : std_logic_vector(3 downto 0);
 signal main_video_vs       : std_logic;
 signal main_video_hs       : std_logic;
 signal main_video_hblank   : std_logic;
@@ -289,7 +289,7 @@ signal ddram_be         : std_logic_vector( 7 downto 0);
 signal ddram_we         : std_logic;
 
 -- ROM devices for Wonderboy
-signal qnice_dn_addr    : std_logic_vector(17 downto 0);
+signal qnice_dn_addr    : std_logic_vector(18 downto 0);
 signal qnice_dn_data    : std_logic_vector(7 downto 0);
 signal qnice_dn_wr      : std_logic;
 
@@ -460,7 +460,7 @@ begin
          
       ); -- i_main
       
-     process (main_clk) -- 48.4 MHz
+     process (main_clk) -- 40 MHz
      begin
         if rising_edge(main_clk) then
 
@@ -471,9 +471,9 @@ begin
                video_ce_ovl_o <= '1'; -- 24.2 MHz
             end if;
 
-            video_red   <= main_video_red   & main_video_red   & main_video_red(2 downto 1);
-            video_green <= main_video_green & main_video_green & main_video_green(2 downto 1);
-            video_blue  <= main_video_blue  & main_video_blue  & main_video_blue & main_video_blue;
+            video_red   <= main_video_red   & main_video_red;
+            video_green <= main_video_green & main_video_green;
+            video_blue  <= main_video_blue  & main_video_blue;
 
             video_hs     <= not main_video_hs;
             video_vs     <= not main_video_vs;
@@ -555,81 +555,111 @@ begin
       
       
       case qnice_dev_id_i is
-
-       -- 0x0000 - 0x7fff / 000000000000000000 - 000111111111111111
-         when C_DEV_WB_CPU_ROM1 =>  
-              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "000" & qnice_dev_addr_i(14 downto 0);   
-              qnice_dn_data <= qnice_dev_data_i(7 downto 0);
       
-          -- 0x8000 - 0xbfff / 001000000000000000 - 001011111111111111
-         when C_DEV_WB_CPU_ROM2 =>
+         -- `define EN_SCPU	(ROMAD[18:15]==4'b000_0) // $0-$7fff
+        
+         -- 0x0000 - 0x7fff
+         when C_DEV_WB_SND  => 
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "0010" & qnice_dev_addr_i(13 downto 0); 
+              qnice_dn_addr <= "0000" & qnice_dev_addr_i(14 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
               
-         -- 0xC000 - 0xdfff / 001101111111111111   
-         when C_DEV_WB_SND  =>
+        --`define EN_MCPU0_PRG (ROMAD[18:15]==4'b000_1)		// $08000-$0ffff wbmlvcd.ic90
+        --`define EN_MCPU8_PRG (ROMAD[18:16]==3'b001)		// $10000-$1ffff ???
+        --`define EN_MCPU0_OPS (ROMAD[18:15]==4'b110_0)		// $60000-$67fff ???
+        --`define EN_KEY       (ROMAD[18:13]==6'b101_101) 	// $5a000-$5bfff
+
+         -- 0x8000 - 0xffff ( 0001 000000000000000 )
+         when C_DEV_WB_CPU_ROM1 => -- wbmlvcd.ic90
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "00110" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "0001" & qnice_dev_addr_i(14 downto 0);   
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
               
-         -- 0xe000 - 0xffff / 001111111111111111   
-         when C_DEV_WB_SND_1  =>
+         -- 0x10000 - 0x17fff ( 00010 000000000000000 )
+         when C_DEV_WB_CPU_ROM2 => -- wbmlvcd.ic91 
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "00111" & qnice_dev_addr_i(12 downto 0); 
+              --qnice_dn_addr <= "001" & qnice_dev_addr_i(15 downto 0); -- combine them instead if below doesn't work
+              qnice_dn_addr <= "0010" & qnice_dev_addr_i(14 downto 0);
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-          
+
+         -- 0x18000 - 0x1ffff ( 00011 000000000000000 )
+         when C_DEV_WB_CPU_ROM3 => -- wbmlvcd.ic92
+              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;   
+              qnice_dn_addr <= "0011" & qnice_dev_addr_i(14 downto 0); 
+              qnice_dn_data <= qnice_dev_data_i(7 downto 0);  
+         
+         -- 0x20000 - 0x3ffff     -- Sprites
+         when C_DEV_WB_SPR1 =>
+              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
+              qnice_dn_addr <= "01" & qnice_dev_addr_i(16 downto 0); 
+              qnice_dn_data <= qnice_dev_data_i(7 downto 0);
+         
+         -- 0x40000-0x43fff     
          when C_DEV_WB_TIL1 =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10000" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "10000" & qnice_dev_addr_i(13 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-         
+              
+         -- 0x44000-0x47FFF
          when C_DEV_WB_TIL2 =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10001" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "10001" & qnice_dev_addr_i(13 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
               
+         -- 0x48000-0x4bFFF      
          when C_DEV_WB_TIL3 =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10010" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "10010" & qnice_dev_addr_i(13 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-              
+         
+         -- 0x4c000-0x4fFFF     
          when C_DEV_WB_TIL4 =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10011" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "10011" & qnice_dev_addr_i(13 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
               
+         -- 0x50000-0x53FFF     
          when C_DEV_WB_TIL5 =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10100" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "10100" & qnice_dev_addr_i(13 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-              
+         
+         -- 0x54000-0x57FFF     
          when C_DEV_WB_TIL6 =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10101" & qnice_dev_addr_i(12 downto 0); 
+              qnice_dn_addr <= "10101" & qnice_dev_addr_i(13 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-        
-        when C_DEV_WB_SPR1 =>
-              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "01" & qnice_dev_addr_i(15 downto 0); 
-              qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-      
+              
+         -- 0x58000-0x580FF
          when C_DEV_WB_PROM => 
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "1011000000" & qnice_dev_addr_i(7 downto 0); 
+              qnice_dn_addr <= "10110000000" & qnice_dev_addr_i(7 downto 0); 
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);   
               
+         -- 0x58100
+         when C_DEV_WB_PROM_R =>
+              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
+              qnice_dn_addr <= "10110000001" & qnice_dev_addr_i(7 downto 0); 
+              qnice_dn_data <= qnice_dev_data_i(7 downto 0);
+              
+         -- 0x58200     
+         when C_DEV_WB_PROM_G =>
+              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
+              qnice_dn_addr <= "10110000010" & qnice_dev_addr_i(7 downto 0); 
+              qnice_dn_data <= qnice_dev_data_i(7 downto 0); 
+         
+         -- 0x58300     
+         when C_DEV_WB_PROM_B =>
+              qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
+              qnice_dn_addr <= "10110000011" & qnice_dev_addr_i(7 downto 0); 
+              qnice_dn_data <= qnice_dev_data_i(7 downto 0); 
+              
+         -- 0x58400        
          when C_DEV_WB_XTBL =>
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr <= "10110000010" & qnice_dev_addr_i(6 downto 0); 
-              qnice_dn_data <= qnice_dev_data_i(7 downto 0);   
-              
-         --when C_DEV_WB_STBL =>
-         --     qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-         --     qnice_dn_addr <= "10110000011" & qnice_dev_addr_i(6 downto 0); 
-         --     qnice_dn_data <= qnice_dev_data_i(7 downto 0);
-         
+              qnice_dn_addr <= "10110001000" & qnice_dev_addr_i(7 downto 0); 
+              qnice_dn_data <= qnice_dev_data_i(7 downto 0);     
+   
          when others => null;
          
       end case;
