@@ -172,7 +172,7 @@ constant TILE_05_ROM                 : string  := "arcade/wbml/vc.ic6_1" & ENDST
 constant TILE_06_ROM                 : string  := "arcade/wbml/vc.ic6_2" & ENDSTR;       -- tiles
 constant LOOKUP_PROM                 : string  := "arcade/wbml/pr5317.37" & ENDSTR;      -- lookup proms
 constant COL_LUT_R                   : string  := "arcade/wbml/pr11025.14" & ENDSTR;     -- MMI 63S141AN - palette red component
-constant COL_LUT_G                   : string  := "arcade/wbml/pr5317.37" & ENDSTR;      -- MMI 63S141AN - palette green component
+constant COL_LUT_G                   : string  := "arcade/wbml/pr11026.20" & ENDSTR;      -- MMI 63S141AN - palette green component
 constant COL_LUT_B                   : string  := "arcade/wbml/pr11024.8" & ENDSTR;      -- MMI 63S141AN - palette blue component
 constant DEC_TABLE                   : string  := "arcade/wbml/dectable.bin" & ENDSTR;   -- DEC table -- 256 bytes
 
@@ -205,7 +205,6 @@ constant C_CRTROMS_AUTO_NAMES    : string  := ROM1_SND_CPU_ROM &                
                                               LOOKUP_PROM & 
                                               COL_LUT_R & COL_LUT_G & COL_LUT_B &
                                               DEC_TABLE &
-                                              ROM1_MAIN1_CPU_ROM &
                                               ENDSTR;
                                               
 constant C_CRTROMS_AUTO          : crtrom_buf_array := ( 
