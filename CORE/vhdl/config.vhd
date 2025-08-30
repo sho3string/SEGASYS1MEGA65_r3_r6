@@ -76,21 +76,20 @@ type WHS_RECORD_ARRAY_TYPE is array (0 to WHS_RECORDS - 1) of WHS_RECORD_TYPE;
 
 constant SCR_WELCOME : string :=
 
-   "Wonder Boy- Monderland V0.5.0 (beta)\n" &
-   "------------------------------------\n" &
+   "Wonder Boy-Monderland V0.5.0 (beta)\n" &
+   "-----------------------------------\n" &
    "\n" &
    "MiSTer port done by Muse in 2025\n\n" &
 
    -- We are not insisting. But it would be nice if you gave us credit for MiSTer2MEGA65 by leaving these lines in
    "Powered by MiSTer2MEGA65 Ver 2.0.1\n" &
-   "By sy2002 and MJoergen in 2022\n"     &
+   "By sy2002 and MJoergen in 2024\n"     &
    "\n\n"                                 &
    "Credits  : Press '5' or '6'\n"        & 
    "Start    : Press '1' or '2'\n"        &
-   "Controls : Joy 1 - left & right\n"    &
-   "Jump     : Left shift\n"              &
-   "Svc 1    : Press 's' \n"              &
-   "Svc Mode : Press 'd' \n"              &
+   "Controls : Arrows/Joy 1 & joy 2\n"    &
+   "Jump     : Mega key/Potx\n"           &
+   "Attack   : Shift key/Joy fire\n"      &
    "\n\n    Press Space to continue.\n"; 
    
 constant HELP_1 : string :=
@@ -331,7 +330,7 @@ constant OPTM_DX           : natural := 23;
 constant OPTM_DY           : natural := 21;
 
 constant OPTM_ITEMS        : string :=
-   " WMBL\n"                &
+   " Wonder Boy-MonsterLand\n"&
    "\n"                     &
    " Pause when OSD open\n" &
    " Flip joystick ports\n" &
@@ -503,23 +502,23 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_SUBMENU,                                            -- Dipswitch B Submenu start
                                              OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Dipswitch B Title
                                              OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_SEGAWB_DSWA0  + OPTM_G_SINGLESEL,                   -- 2 Credits Game
-                                             OPTM_G_SEGAWB_DSWA1  + OPTM_G_SINGLESEL,                   -- Difficulty A \
-                                             OPTM_G_SEGAWB_DSWA2  + OPTM_G_SINGLESEL,                   -- Difficulty B / 
-                                             OPTM_G_SEGAWB_DSWA3  + OPTM_G_SINGLESEL,                   -- Allow Continue
-                                             OPTM_G_SEGAWB_DSWA4  + OPTM_G_SINGLESEL,                   -- Demo Sounds
-                                             OPTM_G_SEGAWB_DSWA5  + OPTM_G_SINGLESEL,                   -- Freeze
-                                             OPTM_G_SEGAWB_DSWA6  + OPTM_G_SINGLESEL,                   -- Unused
-                                             OPTM_G_SEGAWB_DSWA7  + OPTM_G_SINGLESEL,                   -- Cabinet
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_SEGAWB_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Coinage A \
-                                             OPTM_G_SEGAWB_DSWB1  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Coinage B  |
-                                             OPTM_G_SEGAWB_DSWB2  + OPTM_G_SINGLESEL,                   -- Coinage C / 
-                                             OPTM_G_SEGAWB_DSWB3  + OPTM_G_SINGLESEL,                   -- Bonus Life A \
-                                             OPTM_G_SEGAWB_DSWB4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Bonus Life B  |
-                                             OPTM_G_SEGAWB_DSWB5  + OPTM_G_SINGLESEL,                   -- Bonus Life C /
-                                             OPTM_G_SEGAWB_DSWB6  + OPTM_G_SINGLESEL,                   -- Lives A \
-                                             OPTM_G_SEGAWB_DSWB7  + OPTM_G_SINGLESEL,                   -- Lives B /
+                                             OPTM_G_SEGAWB_DSWA0  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA1  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA2  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA3  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA4  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA5  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA6  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWA7  + OPTM_G_SINGLESEL,
+                                             OPTM_G_LINE,
+                                             OPTM_G_SEGAWB_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_SEGAWB_DSWB1  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWB2  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWB3  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWB4  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWB5  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWB6  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGAWB_DSWB7  + OPTM_G_SINGLESEL,
                                              OPTM_G_LINE,                                               -- Line
                                              OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close submenu / back to main menu
                                              OPTM_G_LINE,                                               -- Line
