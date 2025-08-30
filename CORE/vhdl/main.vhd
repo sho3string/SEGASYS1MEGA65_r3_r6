@@ -146,15 +146,22 @@ signal oRGB                : std_logic_vector(11 downto 0);
 signal HOFFS               : std_logic_vector(4 downto 0);
 signal VOFFS               : std_logic_vector(2 downto 0);
 
+signal jump1_button_n      : std_logic;
+signal jump2_button_n      : std_logic;
+
 begin
 
+    -- map button 2 to mega key or potx/poty analog inputs.
+    jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" ) else '1';
+    jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" ) else '1';
+    
     audio_left_o  <= signed(unsigned(audio)) - to_signed(32768, 16);
     audio_right_o <= signed(unsigned(audio)) - to_signed(32768, 16);
    
-    options(0)  <= osm_control_i(C_MENU_OSMPAUSE);
-    flip_screen <= osm_control_i(C_MENU_FLIP);
+    options(0)        <= osm_control_i(C_MENU_OSMPAUSE);
+    flip_screen       <= osm_control_i(C_MENU_FLIP);
 
-    -- video
+    -- videohow is the button 
     PCLK_EN     <=  video_ce_o;
     oRGB        <=  video_blue_o & video_green_o & video_red_o;
     
@@ -186,7 +193,8 @@ begin
          HOFFS      => "000"   & HOFFS,
          VOFFS      => "00000" & VOFFS 
      );
-
+     
+   
     i_GameCore : entity work.segasystem1
     port map (
     
@@ -199,7 +207,7 @@ begin
     INP0(4)    => keyboard_n(m65_vert_crsr)  and joy_1_down_n_i, -- down  
     INP0(3)    => '1',
     INP0(2)    => keyboard_n(m65_left_shift) and joy_1_fire_n_i, -- trigger 2
-    INP0(1)    => keyboard_n(m65_mega),                          -- trigger 1   
+    INP0(1)    => jump1_button_n,
     INP0(0)    => '1',                                           -- trigger 3
     
     INP1(7)    => keyboard_n(m65_left_crsr)  and joy_2_left_n_i,  -- left
@@ -208,7 +216,7 @@ begin
     INP1(4)    => keyboard_n(m65_vert_crsr)  and joy_2_down_n_i,  -- down    
     INP1(3)    => '1',
     INP1(2)    => keyboard_n(m65_left_shift) and joy_2_fire_n_i,  -- trigger 2
-    INP1(1)    => keyboard_n(m65_mega),                           -- trigger 1   
+    INP1(1)    => jump2_button_n,                                 -- trigger 1   
     INP1(0)    => '1',                                            -- trigger 3
     
     INP2(7)    => '1',                       -- unknown
@@ -231,8 +239,8 @@ begin
 	test3      => 0,
 	test4      => 0,
     
-    DSW0       => not dsw_a_i,
-    DSW1       => not dsw_b_i,
+    DSW0       => not dsw_b_i,
+    DSW1       => not dsw_a_i,
     
     PH         => HPOS,
     PV         => VPOS,
@@ -252,6 +260,7 @@ begin
     HSWE       => hs_write_enable
  
     );
+    
    
    -- @TODO: Keyboard mapping and keyboard behavior
    -- Each core is treating the keyboard in a different way: Some need low-active "matrices", some
