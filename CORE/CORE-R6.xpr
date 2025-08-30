@@ -95,6 +95,13 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/Arcade-SEGASYS1_MiSTer/rtl/MC8123.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/Arcade-SEGASYS1_MiSTer/rtl/SEGASYS1.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
