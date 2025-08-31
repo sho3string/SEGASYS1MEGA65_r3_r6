@@ -151,7 +151,7 @@ signal jump2_button_n      : std_logic;
 
 begin
 
-    -- map button 2 to mega key or potx/poty analog inputs.
+    -- map button 2 to mega key or potx analog inputs.
     jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" ) else '1';
     jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" ) else '1';
     

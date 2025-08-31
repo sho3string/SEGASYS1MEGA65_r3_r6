@@ -90,6 +90,8 @@ constant SCR_WELCOME : string :=
    "Controls : Arrows/Joy 1 & joy 2\n"    &
    "Jump     : Mega key/Potx\n"           &
    "Attack   : Shift key/Joy fire\n"      &
+   "Svc 1    : Press 's' \n"              &
+   "Svc Mode : Press 'd' \n"              &
    "\n\n    Press Space to continue.\n"; 
    
 constant HELP_1 : string :=
@@ -267,7 +269,7 @@ constant SEL_CORENAME      : std_logic_vector(15 downto 0) := x"0200";
 
 -- Currently this is only used in the debug console. Use the welcome screen and the
 -- help system to display the name and version of the Wonderboy core to the end user
-constant CORENAME          : string := "Pitfall II V1";
+constant CORENAME          : string := "Wonder Boy Monsterland V1";
 
 --------------------------------------------------------------------------------------------------------------------
 -- "Help" menu / Options menu  (Selectors 0x0300 .. 0x0312): DO NOT TOUCH
@@ -330,7 +332,7 @@ constant OPTM_DX           : natural := 23;
 constant OPTM_DY           : natural := 21;
 
 constant OPTM_ITEMS        : string :=
-   " Wonder Boy-MonsterLand\n"&
+   " Wonder Boy Monsterland\n"&
    "\n"                     &
    " Pause when OSD open\n" &
    " Flip joystick ports\n" &
