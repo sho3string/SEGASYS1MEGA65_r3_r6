@@ -141,40 +141,41 @@ constant C_CRTROMS_MAN           : crtrom_buf_array := ( x"EEEE", x"EEEE",
 --               b) Don't forget to zero-terminate each of your substrings of C_CRTROMS_AUTO_NAMES by adding "& ENDSTR;"
 --               c) Don't forget to finish the C_CRTROMS_AUTO array with x"EEEE"
 
-constant C_DEV_WB_CPU_ROM1           : std_logic_vector(15 downto 0) := x"0100";     -- CPU1 ROM 
-constant C_DEV_WB_CPU_ROM2           : std_logic_vector(15 downto 0) := x"0101";     -- CPU2 ROM 
-constant C_DEV_WB_CPU_ROM3           : std_logic_vector(15 downto 0) := x"0102";     -- CPU3 ROM 
-constant C_DEV_WB_SND                : std_logic_vector(15 downto 0) := x"0103";     -- SOUNDCPU
-constant C_DEV_WB_SPR1               : std_logic_vector(15 downto 0) := x"0104";     -- SPRITES 1
-constant C_DEV_WB_TIL1               : std_logic_vector(15 downto 0) := x"0105";     -- TILES 1
-constant C_DEV_WB_TIL2               : std_logic_vector(15 downto 0) := x"0106";     -- TILES 2
-constant C_DEV_WB_TIL3               : std_logic_vector(15 downto 0) := x"0107";     -- TILES 3
-constant C_DEV_WB_TIL4               : std_logic_vector(15 downto 0) := x"0108";     -- TILES 4
-constant C_DEV_WB_TIL5               : std_logic_vector(15 downto 0) := x"0109";     -- TILES 5
-constant C_DEV_WB_TIL6               : std_logic_vector(15 downto 0) := x"010A";     -- TILES 6
-constant C_DEV_WB_PROM               : std_logic_vector(15 downto 0) := x"010B";     -- PROMS
-constant C_DEV_WB_PROM_R             : std_logic_vector(15 downto 0) := x"010C";     -- PROMS R
-constant C_DEV_WB_PROM_G             : std_logic_vector(15 downto 0) := x"010D";     -- PROMS G
-constant C_DEV_WB_PROM_B             : std_logic_vector(15 downto 0) := x"010E";     -- PROMS B
-constant C_DEV_WB_XTBL               : std_logic_vector(15 downto 0) := x"010F";     -- DEC TABLE
+constant C_DEV_CL_CPU_ROM1           : std_logic_vector(15 downto 0) := x"0100";     -- CPU1 ROM 
+constant C_DEV_CL_CPU_ROM2           : std_logic_vector(15 downto 0) := x"0101";     -- CPU2 ROM 
+constant C_DEV_CL_CPU_ROM3           : std_logic_vector(15 downto 0) := x"0102";     -- CPU3 ROM 
+constant C_DEV_CL_SND                : std_logic_vector(15 downto 0) := x"0103";     -- SOUNDCPU
+constant C_DEV_CL_SPR1               : std_logic_vector(15 downto 0) := x"0104";     -- SPRITES 1
+constant C_DEV_CL_TIL1               : std_logic_vector(15 downto 0) := x"0105";     -- TILES 1
+constant C_DEV_CL_TIL2               : std_logic_vector(15 downto 0) := x"0106";     -- TILES 2
+constant C_DEV_CL_TIL3               : std_logic_vector(15 downto 0) := x"0107";     -- TILES 3
+constant C_DEV_CL_TIL4               : std_logic_vector(15 downto 0) := x"0108";     -- TILES 4
+constant C_DEV_CL_TIL5               : std_logic_vector(15 downto 0) := x"0109";     -- TILES 5
+constant C_DEV_CL_TIL6               : std_logic_vector(15 downto 0) := x"010A";     -- TILES 6
+constant C_DEV_CL_PROM               : std_logic_vector(15 downto 0) := x"010B";     -- PROMS
+constant C_DEV_CL_PROM_R             : std_logic_vector(15 downto 0) := x"010C";     -- PROMS R
+constant C_DEV_CL_PROM_G             : std_logic_vector(15 downto 0) := x"010D";     -- PROMS G
+constant C_DEV_CL_PROM_B             : std_logic_vector(15 downto 0) := x"010E";     -- PROMS B
+constant C_DEV_CL_XTBL               : std_logic_vector(15 downto 0) := x"010F";     -- DEC TABLE
 
--- wbmlvcd_pad.ic90, wbmlvcd_pad.ic91, wbmlvcd_pad.ic92 - 64kb
-constant ROM1_MAIN1_CPU_ROM          : string  := "arcade/wbml/wbmlvcd.ic90"  & ENDSTR;  -- z80 cpu 32kb -- non encrypted
-constant ROM1_MAIN2_CPU_ROM          : string  := "arcade/wbml/wbmlvcd.ic91"  & ENDSTR;  -- z80 cpu 32kb -- non encrypted
-constant ROM1_MAIN3_CPU_ROM          : string  := "arcade/wbml/wbmlvcd.ic92"  & ENDSTR;  -- z80 cpu 32kb -- non encrypted
-constant ROM1_SND_CPU_ROM            : string  := "arcade/wbml/epr11037.126" & ENDSTR;   -- z80 snd 32kb
-constant SPR_01_ROM                  : string  := "arcade/wbml/sprites.bin" & ENDSTR;    -- sprites 64kb
-constant TILE_01_ROM                 : string  := "arcade/wbml/vc.ic4_1" & ENDSTR;       -- tiles, split i think
-constant TILE_02_ROM                 : string  := "arcade/wbml/vc.ic4_2" & ENDSTR;       -- tiles
-constant TILE_03_ROM                 : string  := "arcade/wbml/vc.ic5_1" & ENDSTR;       -- tiles
-constant TILE_04_ROM                 : string  := "arcade/wbml/vc.ic5_2" & ENDSTR;       -- tiles
-constant TILE_05_ROM                 : string  := "arcade/wbml/vc.ic6_1" & ENDSTR;       -- tiles
-constant TILE_06_ROM                 : string  := "arcade/wbml/vc.ic6_2" & ENDSTR;       -- tiles
-constant LOOKUP_PROM                 : string  := "arcade/wbml/pr5317.37" & ENDSTR;      -- lookup proms
-constant COL_LUT_R                   : string  := "arcade/wbml/pr11026.20" & ENDSTR;     -- MMI 63S141AN - palette red component
-constant COL_LUT_G                   : string  := "arcade/wbml/pr11025.14" & ENDSTR;     -- MMI 63S141AN - palette green component
-constant COL_LUT_B                   : string  := "arcade/wbml/pr11024.8" & ENDSTR;      -- MMI 63S141AN - palette blue component
-constant DEC_TABLE                   : string  := "arcade/wbml/dectable.bin" & ENDSTR;   -- DEC table -- 256 bytes
+constant ROM1_MAIN1_CPU_ROM          : string  := "arcade/choplift/epr-7152.ic90"  & ENDSTR; -- z80 cpu 32kb -- non encrypted
+constant ROM1_MAIN2_CPU_ROM          : string  := "arcade/choplift/epr-7153.ic91"  & ENDSTR; -- z80 cpu 32kb -- non encrypted
+constant ROM1_MAIN3_CPU_ROM          : string  := "arcade/choplift/epr-7154.ic92"  & ENDSTR; -- z80 cpu 32kb -- non encrypted
+constant ROM1_SND_CPU_ROM            : string  := "arcade/choplift/epr-7130.ic126" & ENDSTR; -- z80 snd 32kb
+constant SPR_01_ROM                  : string  := "arcade/choplift/sprites.bin" & ENDSTR;    -- sprites 64kb
+constant TILE_01_ROM                 : string  := "arcade/choplift/epr-7127.ic4_1" & ENDSTR; -- tiles
+constant TILE_02_ROM                 : string  := "arcade/choplift/epr-7127.ic4_2" & ENDSTR; -- tiles
+constant TILE_03_ROM                 : string  := "arcade/choplift/epr-7128.ic5_1" & ENDSTR; -- tiles
+constant TILE_04_ROM                 : string  := "arcade/choplift/epr-7128.ic5_2" & ENDSTR; -- tiles
+constant TILE_05_ROM                 : string  := "arcade/choplift/epr-7129.ic6_1" & ENDSTR; -- tiles
+constant TILE_06_ROM                 : string  := "arcade/choplift/epr-7129.ic6_2" & ENDSTR; -- tiles
+constant LOOKUP_PROM                 : string  := "arcade/choplift/pr5317.ic28" & ENDSTR;    -- lookup proms
+constant COL_LUT_R                   : string  := "arcade/choplift/pr7119.ic20" & ENDSTR;    -- MMI 63S141AN - palette red component
+constant COL_LUT_G                   : string  := "arcade/choplift/pr7118.ic14" & ENDSTR;    -- MMI 63S141AN - palette green component
+constant COL_LUT_B                   : string  := "arcade/choplift/pr7117.ic8" & ENDSTR;     -- MMI 63S141AN - palette blue component
+constant DEC_TABLE                   : string  := "arcade/choplift/dectable.bin" & ENDSTR;   -- DEC table -- 256 bytes
+--constant PLD_1                       : string  := "arcade/choplift/315-5152.bin" & ENDSTR;   -- PLD_1 -- 260 bytes
+--constant PLD_2                       : string  := "arcade/choplift/315-5138.bin" & ENDSTR;   -- PLD_2 -- 260 bytes
 
 constant SND_CPU_MAIN_START           : std_logic_vector(15 downto 0) := X"0000";
 constant CPU_ROM1_MAIN_START          : std_logic_vector(15 downto 0) := SND_CPU_MAIN_START  + ROM1_SND_CPU_ROM'length;
@@ -208,22 +209,22 @@ constant C_CRTROMS_AUTO_NAMES    : string  := ROM1_SND_CPU_ROM &                
                                               ENDSTR;
                                               
 constant C_CRTROMS_AUTO          : crtrom_buf_array := ( 
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_SND,      C_CRTROMTYPE_MANDATORY, SND_CPU_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_CPU_ROM1, C_CRTROMTYPE_MANDATORY, CPU_ROM1_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_CPU_ROM2, C_CRTROMTYPE_MANDATORY, CPU_ROM2_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_CPU_ROM3, C_CRTROMTYPE_MANDATORY, CPU_ROM3_MAIN_START,  
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_SPR1,     C_CRTROMTYPE_MANDATORY, SPR1_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL1,     C_CRTROMTYPE_MANDATORY, TILE1_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL2,     C_CRTROMTYPE_MANDATORY, TILE2_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL3,     C_CRTROMTYPE_MANDATORY, TILE3_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL4,     C_CRTROMTYPE_MANDATORY, TILE4_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL5,     C_CRTROMTYPE_MANDATORY, TILE5_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_TIL6,     C_CRTROMTYPE_MANDATORY, TILE6_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM,     C_CRTROMTYPE_MANDATORY, LOOKUP_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM_R,   C_CRTROMTYPE_MANDATORY, PROMR_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM_G,   C_CRTROMTYPE_MANDATORY, PROMG_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_PROM_B,   C_CRTROMTYPE_MANDATORY, PROMB_MAIN_START,
-      C_CRTROMTYPE_DEVICE, C_DEV_WB_XTBL,     C_CRTROMTYPE_MANDATORY, DECTBL_MAIN_START,  
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_SND,      C_CRTROMTYPE_MANDATORY, SND_CPU_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_CPU_ROM1, C_CRTROMTYPE_MANDATORY, CPU_ROM1_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_CPU_ROM2, C_CRTROMTYPE_MANDATORY, CPU_ROM2_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_CPU_ROM3, C_CRTROMTYPE_MANDATORY, CPU_ROM3_MAIN_START,  
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_SPR1,     C_CRTROMTYPE_MANDATORY, SPR1_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_TIL1,     C_CRTROMTYPE_MANDATORY, TILE1_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_TIL2,     C_CRTROMTYPE_MANDATORY, TILE2_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_TIL3,     C_CRTROMTYPE_MANDATORY, TILE3_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_TIL4,     C_CRTROMTYPE_MANDATORY, TILE4_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_TIL5,     C_CRTROMTYPE_MANDATORY, TILE5_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_TIL6,     C_CRTROMTYPE_MANDATORY, TILE6_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_PROM,     C_CRTROMTYPE_MANDATORY, LOOKUP_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_PROM_R,   C_CRTROMTYPE_MANDATORY, PROMR_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_PROM_G,   C_CRTROMTYPE_MANDATORY, PROMG_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_PROM_B,   C_CRTROMTYPE_MANDATORY, PROMB_MAIN_START,
+      C_CRTROMTYPE_DEVICE, C_DEV_CL_XTBL,     C_CRTROMTYPE_MANDATORY, DECTBL_MAIN_START,  
                                                          x"EEEE");                     -- Always finish the array using x"EEEE"
 
 ----------------------------------------------------------------------------------------------------------

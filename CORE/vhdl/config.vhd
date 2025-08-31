@@ -76,8 +76,8 @@ type WHS_RECORD_ARRAY_TYPE is array (0 to WHS_RECORDS - 1) of WHS_RECORD_TYPE;
 
 constant SCR_WELCOME : string :=
 
-   "Wonder Boy-Monderland V0.5.0 (beta)\n" &
-   "-----------------------------------\n" &
+   "Sega-Choplifter V0.5.0 (beta)\n"      &
+   "-----------------------------\n"      &
    "\n" &
    "MiSTer port done by Muse in 2025\n\n" &
 
@@ -88,8 +88,8 @@ constant SCR_WELCOME : string :=
    "Credits  : Press '5' or '6'\n"        & 
    "Start    : Press '1' or '2'\n"        &
    "Controls : Arrows/Joy 1 & joy 2\n"    &
-   "Jump     : Mega key/Potx\n"           &
-   "Attack   : Shift key/Joy fire\n"      &
+   "Rotate   : Mega key/Potx\n"           &
+   "Fire     : Shift key/Joy fire\n"      &
    "Svc 1    : Press 's' \n"              &
    "Svc Mode : Press 'd' \n"              &
    "\n\n    Press Space to continue.\n"; 
@@ -186,8 +186,8 @@ constant SEL_CFG_FILE      : std_logic_vector(15 downto 0) := x"0101";
 
 -- START YOUR CONFIGURATION BELOW THIS LINE
 
-constant DIR_START         : string := "/arcade/wbml";
-constant CFG_FILE          : string := "/arcade/wbml/wbmlcfg";
+constant DIR_START         : string := "/arcade/choplift";
+constant CFG_FILE          : string := "/arcade/choplift/clcfg";
 
 --------------------------------------------------------------------------------------------------------------------
 -- General configuration settings: Reset, Pause, OSD behavior, Ascal, etc. (Selector 0x0110)
@@ -332,7 +332,7 @@ constant OPTM_DX           : natural := 23;
 constant OPTM_DY           : natural := 21;
 
 constant OPTM_ITEMS        : string :=
-   " Wonder Boy Monsterland\n"&
+   " Sega - Choplifter\n"   &
    "\n"                     &
    " Pause when OSD open\n" &
    " Flip joystick ports\n" &
@@ -418,33 +418,33 @@ constant OPTM_G_FLIP       : integer := 4;
 constant OPTM_G_CRT        : integer := 5;
 -- SEGA DIPS --
 -- Dipswitch A
-constant OPTM_G_SEGAWB_DSWA0      : integer := 6;
-constant OPTM_G_SEGAWB_DSWA1      : integer := 7;
-constant OPTM_G_SEGAWB_DSWA2      : integer := 8;
-constant OPTM_G_SEGAWB_DSWA3      : integer := 9;
-constant OPTM_G_SEGAWB_DSWA4      : integer := 10;
-constant OPTM_G_SEGAWB_DSWA5      : integer := 11;
-constant OPTM_G_SEGAWB_DSWA6      : integer := 12;
-constant OPTM_G_SEGAWB_DSWA7      : integer := 13;
+constant OPTM_G_SEGACL_DSWA0      : integer := 6;
+constant OPTM_G_SEGACL_DSWA1      : integer := 7;
+constant OPTM_G_SEGACL_DSWA2      : integer := 8;
+constant OPTM_G_SEGACL_DSWA3      : integer := 9;
+constant OPTM_G_SEGACL_DSWA4      : integer := 10;
+constant OPTM_G_SEGACL_DSWA5      : integer := 11;
+constant OPTM_G_SEGACL_DSWA6      : integer := 12;
+constant OPTM_G_SEGACL_DSWA7      : integer := 13;
 -- Dipswitch B
-constant OPTM_G_SEGAWB_DSWB0      : integer := 14;
-constant OPTM_G_SEGAWB_DSWB1      : integer := 15;
-constant OPTM_G_SEGAWB_DSWB2      : integer := 16;
-constant OPTM_G_SEGAWB_DSWB3      : integer := 17;
-constant OPTM_G_SEGAWB_DSWB4      : integer := 18;
-constant OPTM_G_SEGAWB_DSWB5      : integer := 19;
-constant OPTM_G_SEGAWB_DSWB6      : integer := 20;
-constant OPTM_G_SEGAWB_DSWB7      : integer := 21;
+constant OPTM_G_SEGACL_DSWB0      : integer := 14;
+constant OPTM_G_SEGACL_DSWB1      : integer := 15;
+constant OPTM_G_SEGACL_DSWB2      : integer := 16;
+constant OPTM_G_SEGACL_DSWB3      : integer := 17;
+constant OPTM_G_SEGACL_DSWB4      : integer := 18;
+constant OPTM_G_SEGACL_DSWB5      : integer := 19;
+constant OPTM_G_SEGACL_DSWB6      : integer := 20;
+constant OPTM_G_SEGACL_DSWB7      : integer := 21;
 constant OPTM_G_FLIPJ             : integer := 22;
 constant OPTM_G_VGA_MODES         : integer := 23;
-constant OPTM_G_SEGAWB_H1         : integer := 24;        
-constant OPTM_G_SEGAWB_H2         : integer := 25;    
-constant OPTM_G_SEGAWB_H4         : integer := 26;    
-constant OPTM_G_SEGAWB_H8         : integer := 27;    
-constant OPTM_G_SEGAWB_H16        : integer := 28;
-constant OPTM_G_SEGAWB_V1         : integer := 29;        
-constant OPTM_G_SEGAWB_V2         : integer := 30;    
-constant OPTM_G_SEGAWB_V4         : integer := 31;    
+constant OPTM_G_SEGACL_H1         : integer := 24;        
+constant OPTM_G_SEGACL_H2         : integer := 25;    
+constant OPTM_G_SEGACL_H4         : integer := 26;    
+constant OPTM_G_SEGACL_H8         : integer := 27;    
+constant OPTM_G_SEGACL_H16        : integer := 28;
+constant OPTM_G_SEGACL_V1         : integer := 29;        
+constant OPTM_G_SEGACL_V2         : integer := 30;    
+constant OPTM_G_SEGACL_V4         : integer := 31;    
         
 -- !!! DO NOT TOUCH !!!
 type OPTM_GTYPE is array (0 to OPTM_SIZE - 1) of integer range 0 to 2**OPTM_GTC- 1;
@@ -483,19 +483,19 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_SUBMENU,                                           
                                              OPTM_G_TEXT + OPTM_G_HEADLINE,                            
                                              OPTM_G_LINE,                                              
-                                             OPTM_G_SEGAWB_H1  + OPTM_G_SINGLESEL,                  
-                                             OPTM_G_SEGAWB_H2  + OPTM_G_SINGLESEL,                  
-                                             OPTM_G_SEGAWB_H4  + OPTM_G_SINGLESEL, 
-                                             OPTM_G_SEGAWB_H8  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_H16 + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_H1  + OPTM_G_SINGLESEL,                  
+                                             OPTM_G_SEGACL_H2  + OPTM_G_SINGLESEL,                  
+                                             OPTM_G_SEGACL_H4  + OPTM_G_SINGLESEL, 
+                                             OPTM_G_SEGACL_H8  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_H16 + OPTM_G_SINGLESEL,
                                              OPTM_G_LINE,                                               -- Line
                                              OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close submenu / back to main menu                           
                                              OPTM_G_SUBMENU,                                           
                                              OPTM_G_TEXT + OPTM_G_HEADLINE,                            
                                              OPTM_G_LINE,                                              
-                                             OPTM_G_SEGAWB_v1  + OPTM_G_SINGLESEL,                  
-                                             OPTM_G_SEGAWB_v2  + OPTM_G_SINGLESEL,                  
-                                             OPTM_G_SEGAWB_v4  + OPTM_G_SINGLESEL, 
+                                             OPTM_G_SEGACL_v1  + OPTM_G_SINGLESEL,                  
+                                             OPTM_G_SEGACL_v2  + OPTM_G_SINGLESEL,                  
+                                             OPTM_G_SEGACL_v4  + OPTM_G_SINGLESEL, 
                                              OPTM_G_LINE,                                               -- Line
                                              OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close submenu / back to main menu
                                              OPTM_G_LINE,                                               -- Line
@@ -504,23 +504,23 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_SUBMENU,                                            -- Dipswitch B Submenu start
                                              OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Dipswitch B Title
                                              OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_SEGAWB_DSWA0  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA1  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA2  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA3  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA4  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA5  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA6  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWA7  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA0  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA1  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA2  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA3  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA4  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA5  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA6  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWA7  + OPTM_G_SINGLESEL,
                                              OPTM_G_LINE,
-                                             OPTM_G_SEGAWB_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_SEGAWB_DSWB1  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWB2  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWB3  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWB4  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWB5  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWB6  + OPTM_G_SINGLESEL,
-                                             OPTM_G_SEGAWB_DSWB7  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_SEGACL_DSWB1  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB2  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB3  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB4  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB5  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB6  + OPTM_G_SINGLESEL,
+                                             OPTM_G_SEGACL_DSWB7  + OPTM_G_SINGLESEL,
                                              OPTM_G_LINE,                                               -- Line
                                              OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close submenu / back to main menu
                                              OPTM_G_LINE,                                               -- Line

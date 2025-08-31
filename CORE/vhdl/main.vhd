@@ -129,15 +129,15 @@ constant m65_help          : integer := 67; --Help key
 constant C_MENU_OSMPAUSE   : natural := 2;
 constant C_MENU_FLIP       : natural := 3;
 
-constant C_MENU_SEGAWB_H1  : integer := 32;
-constant C_MENU_SEGAWB_H2  : integer := 33;
-constant C_MENU_SEGAWB_H4  : integer := 34;
-constant C_MENU_SEGAWB_H8  : integer := 35;
-constant C_MENU_SEGAWB_H16 : integer := 36;
+constant C_MENU_SEGACL_H1  : integer := 32;
+constant C_MENU_SEGACL_H2  : integer := 33;
+constant C_MENU_SEGACL_H4  : integer := 34;
+constant C_MENU_SEGACL_H8  : integer := 35;
+constant C_MENU_SEGACL_H16 : integer := 36;
 
-constant C_MENU_SEGAWB_V1  : integer := 42;
-constant C_MENU_SEGAWB_V2  : integer := 43;
-constant C_MENU_SEGAWB_V4  : integer := 44;
+constant C_MENU_SEGACL_V1  : integer := 42;
+constant C_MENU_SEGACL_V2  : integer := 43;
+constant C_MENU_SEGACL_V4  : integer := 44;
 
 signal PCLK_EN             : std_logic;
 signal HPOS,VPOS           : std_logic_vector(8 downto 0);
@@ -146,14 +146,14 @@ signal oRGB                : std_logic_vector(11 downto 0);
 signal HOFFS               : std_logic_vector(4 downto 0);
 signal VOFFS               : std_logic_vector(2 downto 0);
 
-signal jump1_button_n      : std_logic;
-signal jump2_button_n      : std_logic;
+signal rotate1_button_n      : std_logic;
+signal rotate2_button_n      : std_logic;
 
 begin
 
     -- map button 2 to mega key or potx analog inputs.
-    jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" ) else '1';
-    jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" ) else '1';
+    rotate1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" ) else '1';
+    rotate2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" ) else '1';
     
     audio_left_o  <= signed(unsigned(audio)) - to_signed(32768, 16);
     audio_right_o <= signed(unsigned(audio)) - to_signed(32768, 16);
@@ -166,15 +166,15 @@ begin
     oRGB        <=  video_blue_o & video_green_o & video_red_o;
     
     -- video crt offsets
-    HOFFS <=   osm_control_i(C_MENU_SEGAWB_H16)  &
-               osm_control_i(C_MENU_SEGAWB_H8)   &
-               osm_control_i(C_MENU_SEGAWB_H4)   &
-               osm_control_i(C_MENU_SEGAWB_H2)   &
-               osm_control_i(C_MENU_SEGAWB_H1);
+    HOFFS <=   osm_control_i(C_MENU_SEGACL_H16)  &
+               osm_control_i(C_MENU_SEGACL_H8)   &
+               osm_control_i(C_MENU_SEGACL_H4)   &
+               osm_control_i(C_MENU_SEGACL_H2)   &
+               osm_control_i(C_MENU_SEGACL_H1);
                
-    VOFFS <=   osm_control_i(C_MENU_SEGAWB_V4)   &
-               osm_control_i(C_MENU_SEGAWB_V2)   &
-               osm_control_i(C_MENU_SEGAWB_V1);
+    VOFFS <=   osm_control_i(C_MENU_SEGACL_V4)   &
+               osm_control_i(C_MENU_SEGACL_V2)   &
+               osm_control_i(C_MENU_SEGACL_V1);
                
                
     i_hvgen : entity work.hvgen
@@ -207,7 +207,7 @@ begin
     INP0(4)    => keyboard_n(m65_vert_crsr)  and joy_1_down_n_i, -- down  
     INP0(3)    => '1',
     INP0(2)    => keyboard_n(m65_left_shift) and joy_1_fire_n_i, -- trigger 2
-    INP0(1)    => jump1_button_n,
+    INP0(1)    => rotate1_button_n,
     INP0(0)    => '1',                                           -- trigger 3
     
     INP1(7)    => keyboard_n(m65_left_crsr)  and joy_2_left_n_i,  -- left
@@ -216,7 +216,7 @@ begin
     INP1(4)    => keyboard_n(m65_vert_crsr)  and joy_2_down_n_i,  -- down    
     INP1(3)    => '1',
     INP1(2)    => keyboard_n(m65_left_shift) and joy_2_fire_n_i,  -- trigger 2
-    INP1(1)    => jump2_button_n,                                 -- trigger 1   
+    INP1(1)    => rotate2_button_n,                                 -- trigger 1   
     INP1(0)    => '1',                                            -- trigger 3
     
     INP2(7)    => '1',                       -- unknown
@@ -229,7 +229,7 @@ begin
     INP2(0)    => keyboard_n(m65_5),         -- coin 1
     
     system2    => '1',
-    rowscroll  => '0', -- global scroll on.
+    rowscroll  => '1', -- row scroll on.
     quirks     =>  0,
     
     show_banks => '0',
