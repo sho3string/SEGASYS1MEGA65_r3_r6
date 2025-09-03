@@ -126,18 +126,19 @@ constant m65_help          : integer := 67; --Help key
 
 -- Menu controls
 
-constant C_MENU_OSMPAUSE   : natural := 2;
-constant C_MENU_FLIP       : natural := 3;
+constant C_MENU_POTPOL     : natural := 2;
+constant C_MENU_OSMPAUSE   : natural := 3;
+constant C_MENU_FLIP       : natural := 4;
 
-constant C_MENU_SEGACL_H1  : integer := 32;
-constant C_MENU_SEGACL_H2  : integer := 33;
-constant C_MENU_SEGACL_H4  : integer := 34;
-constant C_MENU_SEGACL_H8  : integer := 35;
-constant C_MENU_SEGACL_H16 : integer := 36;
+constant C_MENU_SEGACL_H1  : integer := 33;
+constant C_MENU_SEGACL_H2  : integer := 34;
+constant C_MENU_SEGACL_H4  : integer := 35;
+constant C_MENU_SEGACL_H8  : integer := 36;
+constant C_MENU_SEGACL_H16 : integer := 37;
 
-constant C_MENU_SEGACL_V1  : integer := 42;
-constant C_MENU_SEGACL_V2  : integer := 43;
-constant C_MENU_SEGACL_V4  : integer := 44;
+constant C_MENU_SEGACL_V1  : integer := 43;
+constant C_MENU_SEGACL_V2  : integer := 44;
+constant C_MENU_SEGACL_V4  : integer := 45;
 
 signal PCLK_EN             : std_logic;
 signal HPOS,VPOS           : std_logic_vector(8 downto 0);
@@ -146,20 +147,35 @@ signal oRGB                : std_logic_vector(11 downto 0);
 signal HOFFS               : std_logic_vector(4 downto 0);
 signal VOFFS               : std_logic_vector(2 downto 0);
 
-signal rotate1_button_n      : std_logic;
-signal rotate2_button_n      : std_logic;
+signal rotate1_button_n    : std_logic;
+signal rotate2_button_n    : std_logic;
+signal pot_pol_sw          : std_logic; -- Pot polarity switch
 
 begin
 
     -- map button 2 to mega key or potx analog inputs.
-    rotate1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" ) else '1';
-    rotate2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" ) else '1';
-    
+    process(clk_main_i)
+    begin
+        if rising_edge(clk_main_i) then
+            if pot_pol_sw = '1' then -- enable active low
+                -- POT polarity:'0' = active low (Amiga style)
+                rotate1_button_n <= '0' when keyboard_n(m65_mega) = '0' or pot1_x_i = x"00" else '1';
+                rotate2_button_n <= '0' when keyboard_n(m65_mega) = '0' or pot2_x_i = x"00" else '1';
+            else
+                -- POT polarity: '1' = active high (C64GS style),
+                rotate1_button_n <= '0' when keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" else '1';
+                rotate2_button_n <= '0' when keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" else '1';
+            end if;
+        end if;
+    end process;
+
+   
     audio_left_o  <= signed(unsigned(audio)) - to_signed(32768, 16);
     audio_right_o <= signed(unsigned(audio)) - to_signed(32768, 16);
    
     options(0)        <= osm_control_i(C_MENU_OSMPAUSE);
     flip_screen       <= osm_control_i(C_MENU_FLIP);
+    pot_pol_sw        <= osm_control_i(C_MENU_POTPOL);
 
     -- videohow is the button 
     PCLK_EN     <=  video_ce_o;

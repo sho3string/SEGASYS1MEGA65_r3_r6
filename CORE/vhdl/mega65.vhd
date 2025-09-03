@@ -236,36 +236,37 @@ signal main_video_hs       : std_logic;
 signal main_video_hblank   : std_logic;
 signal main_video_vblank   : std_logic;
 
-constant C_MENU_OSMPAUSE      : natural := 2;  
-constant C_FLIP_JOYS          : natural := 3;
-constant C_MENU_CRT_EMULATION : natural := 7;
-constant C_MENU_HDMI_16_9_50  : natural := 11;
-constant C_MENU_HDMI_16_9_60  : natural := 12;
-constant C_MENU_HDMI_4_3_50   : natural := 13;
-constant C_MENU_HDMI_5_4_50   : natural := 14;
-constant C_MENU_VGA_STD       : natural := 20;
-constant C_MENU_VGA_15KHZHSVS : natural := 24;
-constant C_MENU_VGA_15KHZCS   : natural := 25;
+constant C_MENU_POTPOL        : natural := 2;
+constant C_MENU_OSMPAUSE      : natural := 3;
+constant C_FLIP_JOYS          : natural := 4;
+constant C_MENU_CRT_EMULATION : natural := 8;
+constant C_MENU_HDMI_16_9_50  : natural := 12;
+constant C_MENU_HDMI_16_9_60  : natural := 13;
+constant C_MENU_HDMI_4_3_50   : natural := 14;
+constant C_MENU_HDMI_5_4_50   : natural := 15;
+constant C_MENU_VGA_STD       : natural := 21;
+constant C_MENU_VGA_15KHZHSVS : natural := 25;
+constant C_MENU_VGA_15KHZCS   : natural := 26;
 
 -- SEGA DIPs
 -- Dipswitch A
-constant C_MENU_SEGACL_DSWA_0 : natural := 52;
-constant C_MENU_SEGACL_DSWA_1 : natural := 53;
-constant C_MENU_SEGACL_DSWA_2 : natural := 54;
-constant C_MENU_SEGACL_DSWA_3 : natural := 55;
-constant C_MENU_SEGACL_DSWA_4 : natural := 56;
-constant C_MENU_SEGACL_DSWA_5 : natural := 57;
-constant C_MENU_SEGACL_DSWA_6 : natural := 58;
-constant C_MENU_SEGACL_DSWA_7 : natural := 59;
+constant C_MENU_SEGACL_DSWA_0 : natural := 53;
+constant C_MENU_SEGACL_DSWA_1 : natural := 54;
+constant C_MENU_SEGACL_DSWA_2 : natural := 55;
+constant C_MENU_SEGACL_DSWA_3 : natural := 56;
+constant C_MENU_SEGACL_DSWA_4 : natural := 57;
+constant C_MENU_SEGACL_DSWA_5 : natural := 58;
+constant C_MENU_SEGACL_DSWA_6 : natural := 59;
+constant C_MENU_SEGACL_DSWA_7 : natural := 60;
 -- Dipswitch B 
-constant C_MENU_SEGACL_DSWB_0 : natural := 61;
-constant C_MENU_SEGACL_DSWB_1 : natural := 62;
-constant C_MENU_SEGACL_DSWB_2 : natural := 63;
-constant C_MENU_SEGACL_DSWB_3 : natural := 64;
-constant C_MENU_SEGACL_DSWB_4 : natural := 65;
-constant C_MENU_SEGACL_DSWB_5 : natural := 66;
-constant C_MENU_SEGACL_DSWB_6 : natural := 67;
-constant C_MENU_SEGACL_DSWB_7 : natural := 68;
+constant C_MENU_SEGACL_DSWB_0 : natural := 62;
+constant C_MENU_SEGACL_DSWB_1 : natural := 63;
+constant C_MENU_SEGACL_DSWB_2 : natural := 64;
+constant C_MENU_SEGACL_DSWB_3 : natural := 65;
+constant C_MENU_SEGACL_DSWB_4 : natural := 66;
+constant C_MENU_SEGACL_DSWB_5 : natural := 67;
+constant C_MENU_SEGACL_DSWB_6 : natural := 68;
+constant C_MENU_SEGACL_DSWB_7 : natural := 69;
 
 -- Wonderboy specific video processing
 signal div          : std_logic_vector(2 downto 0);
