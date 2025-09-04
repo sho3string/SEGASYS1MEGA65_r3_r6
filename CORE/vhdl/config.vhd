@@ -321,7 +321,7 @@ constant OPTM_S_SAVING     : string := "<Saving>";          -- the internal writ
 --             Do use a lower case \n. If you forget one of them or if you use upper case, you will run into undefined behavior.
 --          2. Start each line that contains an actual menu item (multi- or single-select) with a Space character,
 --             otherwise you will experience visual glitches.
-constant OPTM_SIZE         : natural := 74;  -- amount of items including empty lines:
+constant OPTM_SIZE         : natural := 75;  -- amount of items including empty lines:
                                              -- needs to be equal to the number of lines in OPTM_ITEMS and amount of items in OPTM_GROUPS
                                              -- IMPORTANT: If SAVE_SETTINGS is true and OPTM_SIZE changes: Make sure to re-generate and
                                              -- and re-distribute the config file. You can make a new one using M2M/tools/make_config.sh
@@ -334,7 +334,8 @@ constant OPTM_DY           : natural := 21;
 constant OPTM_ITEMS        : string :=
    " Sega - Choplifter\n"   &
    "\n"                     &
-   " Invert pot polarity\n" &
+   " Potx/Poty\n"           & -- default is off - Potx
+   " Invert pot polarity\n" & -- default is off
    " Pause when OSD open\n" &
    " Flip joystick ports\n" &
    "\n"                     &
@@ -447,6 +448,7 @@ constant OPTM_G_SEGACL_V1         : integer := 29;
 constant OPTM_G_SEGACL_V2         : integer := 30;    
 constant OPTM_G_SEGACL_V4         : integer := 31;
 constant OPTM_G_POTPOL            : integer := 32; 
+constant OPTM_G_POTXY             : integer := 33;
         
 -- !!! DO NOT TOUCH !!!
 type OPTM_GTYPE is array (0 to OPTM_SIZE - 1) of integer range 0 to 2**OPTM_GTC- 1;
@@ -457,6 +459,7 @@ type OPTM_GTYPE is array (0 to OPTM_SIZE - 1) of integer range 0 to 2**OPTM_GTC-
 constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Headline "Demo Headline A"
                                              OPTM_G_LINE,
                                              OPTM_G_POTPOL + OPTM_G_SINGLESEL + OPTM_G_START,           -- Potx/Poty polarity                                              -- Line
+                                             OPTM_G_POTXY + OPTM_G_SINGLESEL,        
                                              OPTM_G_OSDO + OPTM_G_SINGLESEL + OPTM_G_STDSEL,            -- Pause when OSD is open
                                              OPTM_G_FLIPJ + OPTM_G_SINGLESEL,                           -- Flip joys On/Off toggle ("Single Select")
                                              OPTM_G_LINE,                                               -- Line
