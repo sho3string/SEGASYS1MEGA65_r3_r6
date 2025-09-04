@@ -1,4 +1,4 @@
-# Up'n Down ROM Builder - PowerShell 5.1+
+# WBML ROM Builder
 Clear-Host
 $WorkingDirectory = Get-Location
 $OutputPath = Join-Path $WorkingDirectory "arcade\wbml"
@@ -107,7 +107,7 @@ $Table = [byte[]](
 	Write-Host "Table dumped"
 
 	# Create empty PF2CFG file (filled with 0xFF)
-	$length = 73
+	$length = 75
 	$emptyBytes = ,0xFF * $length
 	[System.IO.File]::WriteAllBytes((Join-Path $OutputPath "wbmlcfg"), $emptyBytes)
 	Write-Host "Blank wbmlcfg created"

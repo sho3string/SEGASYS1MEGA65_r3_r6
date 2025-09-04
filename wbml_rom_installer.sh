@@ -1,5 +1,5 @@
 #!/bin/bash
-# Up'n Down / Wonder Boy in Monster Land ROM Builder
+# Wonder Boy in Monster Land ROM Builder
 set -euo pipefail
 
 WORKING_DIR="$(pwd)"
@@ -56,7 +56,7 @@ dd if=/dev/zero of="$OUTPUT_DIR/dectable.bin" bs=1 count=256 status=none
 echo "Table dumped"
 
 # Create empty wbmlcfg (73 bytes of 0xFF)
-printf '\xFF%.0s' {1..73} > "$OUTPUT_DIR/wbmlcfg"
+printf '\xFF%.0s' {1..75} > "$OUTPUT_DIR/wbmlcfg"
 echo "Blank wbmlcfg created"
 
 echo "All done!"

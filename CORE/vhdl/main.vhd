@@ -126,19 +126,20 @@ constant m65_help          : integer := 67; --Help key
 
 -- Menu controls
 
-constant C_MENU_POTPOL     : natural := 2;
-constant C_MENU_OSMPAUSE   : natural := 3;
-constant C_MENU_FLIP       : natural := 4;
+constant C_MENU_POTXY      : natural := 2;
+constant C_MENU_POTPOL     : natural := 3;
+constant C_MENU_OSMPAUSE   : natural := 4;
+constant C_MENU_FLIP       : natural := 5;
 
-constant C_MENU_SEGAWB_H1  : integer := 33;
-constant C_MENU_SEGAWB_H2  : integer := 34;
-constant C_MENU_SEGAWB_H4  : integer := 35;
-constant C_MENU_SEGAWB_H8  : integer := 36;
-constant C_MENU_SEGAWB_H16 : integer := 37;
+constant C_MENU_SEGAWB_H1  : integer := 34;
+constant C_MENU_SEGAWB_H2  : integer := 35;
+constant C_MENU_SEGAWB_H4  : integer := 36;
+constant C_MENU_SEGAWB_H8  : integer := 37;
+constant C_MENU_SEGAWB_H16 : integer := 38;
 
-constant C_MENU_SEGAWB_V1  : integer := 43;
-constant C_MENU_SEGAWB_V2  : integer := 44;
-constant C_MENU_SEGAWB_V4  : integer := 45;
+constant C_MENU_SEGAWB_V1  : integer := 44;
+constant C_MENU_SEGAWB_V2  : integer := 45;
+constant C_MENU_SEGAWB_V4  : integer := 46;
 
 signal PCLK_EN             : std_logic;
 signal HPOS,VPOS           : std_logic_vector(8 downto 0);
@@ -150,6 +151,9 @@ signal VOFFS               : std_logic_vector(2 downto 0);
 signal jump1_button_n      : std_logic;
 signal jump2_button_n      : std_logic;
 signal pot_pol_sw          : std_logic; -- Pot polarity switch
+signal potxy_sw            : std_logic; -- Switch between Potx/Poty buttons
+signal pot1_val            : std_logic_vector(7 downto 0);
+signal pot2_val            : std_logic_vector(7 downto 0);
 
 begin
 
@@ -157,14 +161,23 @@ begin
     process(clk_main_i)
     begin
         if rising_edge(clk_main_i) then
-            if pot_pol_sw = '1' then -- enable active low
+            -- Select POT axis: '0' = POTX, '1' = POTY
+            if potxy_sw = '0' then
+                pot1_val <= pot1_x_i;
+                pot2_val <= pot2_x_i;
+            else
+                pot1_val <= pot1_y_i;
+                pot2_val <= pot2_y_i;
+            end if;
+
+            if pot_pol_sw = '1' then -- enable 0x1 = active low
                 -- POT polarity:'0' = active low (Amiga style)
-                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"00" ) else '1';
-                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"00" ) else '1';
+                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val = x"00" ) else '1';
+                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val = x"00" ) else '1';
             else
                 -- POT polarity: '1' = active high (C64GS style),
-                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_x_i = x"FF" ) else '1';
-                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_x_i = x"FF" ) else '1';
+                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val = x"FF" ) else '1';
+                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val = x"FF" ) else '1';
             end if;
         end if;
     end process;
@@ -175,6 +188,7 @@ begin
     options(0)        <= osm_control_i(C_MENU_OSMPAUSE);
     flip_screen       <= osm_control_i(C_MENU_FLIP);
     pot_pol_sw        <= osm_control_i(C_MENU_POTPOL);
+    potxy_sw          <= osm_control_i(C_MENU_POTXY);
 
     -- videohow is the button 
     PCLK_EN     <=  video_ce_o;

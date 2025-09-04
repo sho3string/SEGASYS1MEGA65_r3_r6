@@ -236,37 +236,38 @@ signal main_video_hs       : std_logic;
 signal main_video_hblank   : std_logic;
 signal main_video_vblank   : std_logic;
 
-constant C_MENU_POTPOL        : natural := 2;
-constant C_MENU_OSMPAUSE      : natural := 3;
-constant C_FLIP_JOYS          : natural := 4;
-constant C_MENU_CRT_EMULATION : natural := 8;
-constant C_MENU_HDMI_16_9_50  : natural := 12;
-constant C_MENU_HDMI_16_9_60  : natural := 13;
-constant C_MENU_HDMI_4_3_50   : natural := 14;
-constant C_MENU_HDMI_5_4_50   : natural := 15;
-constant C_MENU_VGA_STD       : natural := 21;
-constant C_MENU_VGA_15KHZHSVS : natural := 25;
-constant C_MENU_VGA_15KHZCS   : natural := 26;
+constant C_MENU_POTXY         : natural := 2;
+constant C_MENU_POTPOL        : natural := 3;
+constant C_MENU_OSMPAUSE      : natural := 4;
+constant C_FLIP_JOYS          : natural := 5;
+constant C_MENU_CRT_EMULATION : natural := 9;
+constant C_MENU_HDMI_16_9_50  : natural := 13;
+constant C_MENU_HDMI_16_9_60  : natural := 14;
+constant C_MENU_HDMI_4_3_50   : natural := 15;
+constant C_MENU_HDMI_5_4_50   : natural := 16;
+constant C_MENU_VGA_STD       : natural := 22;
+constant C_MENU_VGA_15KHZHSVS : natural := 26;
+constant C_MENU_VGA_15KHZCS   : natural := 27;
 
 -- SEGA DIPs
 -- Dipswitch A
-constant C_MENU_SEGAWB_DSWA_0 : natural := 53;
-constant C_MENU_SEGAWB_DSWA_1 : natural := 54;
-constant C_MENU_SEGAWB_DSWA_2 : natural := 55;
-constant C_MENU_SEGAWB_DSWA_3 : natural := 56;
-constant C_MENU_SEGAWB_DSWA_4 : natural := 57;
-constant C_MENU_SEGAWB_DSWA_5 : natural := 58;
-constant C_MENU_SEGAWB_DSWA_6 : natural := 59;
-constant C_MENU_SEGAWB_DSWA_7 : natural := 60;
+constant C_MENU_SEGAWB_DSWA_0 : natural := 54;
+constant C_MENU_SEGAWB_DSWA_1 : natural := 55;
+constant C_MENU_SEGAWB_DSWA_2 : natural := 56;
+constant C_MENU_SEGAWB_DSWA_3 : natural := 57;
+constant C_MENU_SEGAWB_DSWA_4 : natural := 58;
+constant C_MENU_SEGAWB_DSWA_5 : natural := 59;
+constant C_MENU_SEGAWB_DSWA_6 : natural := 60;
+constant C_MENU_SEGAWB_DSWA_7 : natural := 61;
 -- Dipswitch B 
-constant C_MENU_SEGAWB_DSWB_0 : natural := 62;
-constant C_MENU_SEGAWB_DSWB_1 : natural := 63;
-constant C_MENU_SEGAWB_DSWB_2 : natural := 64;
-constant C_MENU_SEGAWB_DSWB_3 : natural := 65;
-constant C_MENU_SEGAWB_DSWB_4 : natural := 66;
-constant C_MENU_SEGAWB_DSWB_5 : natural := 67;
-constant C_MENU_SEGAWB_DSWB_6 : natural := 68;
-constant C_MENU_SEGAWB_DSWB_7 : natural := 69;
+constant C_MENU_SEGAWB_DSWB_0 : natural := 63;
+constant C_MENU_SEGAWB_DSWB_1 : natural := 64;
+constant C_MENU_SEGAWB_DSWB_2 : natural := 65;
+constant C_MENU_SEGAWB_DSWB_3 : natural := 66;
+constant C_MENU_SEGAWB_DSWB_4 : natural := 67;
+constant C_MENU_SEGAWB_DSWB_5 : natural := 68;
+constant C_MENU_SEGAWB_DSWB_6 : natural := 69;
+constant C_MENU_SEGAWB_DSWB_7 : natural := 70;
 
 -- Wonderboy specific video processing
 signal div          : std_logic_vector(2 downto 0);
