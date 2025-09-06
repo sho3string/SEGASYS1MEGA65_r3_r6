@@ -1,15 +1,11 @@
-# Up'n Down ROM Builder - PowerShell 5.1+
+# Choplifter ROM Builder - PowerShell 5.1+
 Clear-Host
 $WorkingDirectory = Get-Location
-$OutputPath = Join-Path $WorkingDirectory "arcade\wbml"
-
-# wbml_rom_installer.ps1
-$romFiles = @("vc.ic4", "vc.ic5", "vc.ic6")
-$outputDir = Join-Path (Get-Location) "arcade\wbml"
-
+$OutputPath = Join-Path $WorkingDirectory "arcade\choplift"
+$outputDir = Join-Path (Get-Location) "arcade\choplift"
 
 # ROMs to split
-$romFiles = @("vc.ic4", "vc.ic5", "vc.ic6")
+$romFiles = @("epr-7127.ic4", "epr-7128.ic5", "epr-7129.ic6")
 
 # XOR Table for encryption
 $Table = [byte[]](
@@ -31,23 +27,22 @@ $Table = [byte[]](
 	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
 )
 
-	Write-Host "+----------------------------------------------+"
-	Write-Host "|  Building Wonderboy Monderland Arcade ROMs   |"
-	Write-Host "+----------------------------------------------+"
+	Write-Host "+------------------------------------+"
+	Write-Host "|  Building Choplifter Arcade ROMs   |"
+	Write-Host "+------------------------------------+"
 
 	# Ensure directories
 	New-Item -ItemType Directory -Force -Path $OutputPath | Out-Null
 
 	# Copy game ROMs
-	$tileFiles = @("wbmlvcd.ic90", "wbmlvcd.ic91", "wbmlvcd.ic92")
+	$tileFiles = @("epr-7152.ic90", "epr-7153.ic91", "epr-7154.ic92")
 	foreach ($file in $tileFiles) {
 		Copy-Item -Path (Join-Path $WorkingDirectory $file) -Destination $OutputPath
 	}
 	Write-Host "Game ROMs copied"
-	
 
 	# Build sprite ROM (concatenate two files twice)
-	$spriteFiles = @("epr11028.87", "epr11027.86", "epr11030.89", "epr11029.88")
+	$spriteFiles = @("epr-7121.ic87", "epr-7120.ic86", "epr-7123.ic89", "epr-7122.ic88")
 	$spriteBytes = @()
 	foreach ($file in $spriteFiles) {
 		$spriteBytes += [System.IO.File]::ReadAllBytes((Join-Path $WorkingDirectory $file))
@@ -56,12 +51,12 @@ $Table = [byte[]](
 	Write-Host "Sprite ROM built"
 
 	# Copy sound ROM
-	$sndRomFiles = @("epr11037.126")
+	$sndRomFiles = @("epr-7130.ic126")
 	$sndBytes = @()
 	foreach ($file in $sndRomFiles) {
 		$sndBytes += [System.IO.File]::ReadAllBytes((Join-Path $WorkingDirectory $file))
 	}
-	[System.IO.File]::WriteAllBytes((Join-Path $OutputPath "epr11037.126"), $sndBytes)
+	[System.IO.File]::WriteAllBytes((Join-Path $OutputPath "epr-7130.ic126"), $sndBytes)
 	Write-Host "Sound ROM copied"
 	
 
@@ -94,21 +89,20 @@ $Table = [byte[]](
 		Write-Host "Created $out1 and $out2"
 	}
 
-
 	# Copy PROMs
-	Copy-Item -Path (Join-Path $WorkingDirectory "pr5317.37") -Destination $OutputPath
-	Copy-Item -Path (Join-Path $WorkingDirectory "pr11025.14") -Destination $OutputPath
-	Copy-Item -Path (Join-Path $WorkingDirectory "pr11024.8") -Destination $OutputPath
-	Copy-Item -Path (Join-Path $WorkingDirectory "pr11026.20") -Destination $OutputPath
+	Copy-Item -Path (Join-Path $WorkingDirectory "pr5317.ic28") -Destination $OutputPath
+	Copy-Item -Path (Join-Path $WorkingDirectory "pr7118.ic14") -Destination $OutputPath
+	Copy-Item -Path (Join-Path $WorkingDirectory "pr7117.ic8") -Destination $OutputPath
+	Copy-Item -Path (Join-Path $WorkingDirectory "pr7119.ic20") -Destination $OutputPath
 	Write-Host "Lookup PROM copied"
 
 	# Dump table
 	[System.IO.File]::WriteAllBytes((Join-Path $OutputPath "dectable.bin"), $Table)
 	Write-Host "Table dumped"
 
-	# Create empty PF2CFG file (filled with 0xFF)
-	$length = 73
+	# Create empty CFG file (filled with 0xFF)
+	$length = 75
 	$emptyBytes = ,0xFF * $length
-	[System.IO.File]::WriteAllBytes((Join-Path $OutputPath "wbmlcfg"), $emptyBytes)
-	Write-Host "Blank wbmlcfg created"
+	[System.IO.File]::WriteAllBytes((Join-Path $OutputPath "clcfg"), $emptyBytes)
+	Write-Host "Blank clcfg created"
 	Write-Host "All done!"
