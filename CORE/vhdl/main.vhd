@@ -172,12 +172,12 @@ begin
 
             if pot_pol_sw = '1' then -- enable 0x1 = active low
                 -- POT polarity:'0' = active low (Amiga style)
-                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val = x"00" ) else '1';
-                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val = x"00" ) else '1';
+                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val <= x"0f" ) else '1';
+                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val <= x"0f" ) else '1';
             else
                 -- POT polarity: '1' = active high (C64GS style),
-                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val = x"FF" ) else '1';
-                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val = x"FF" ) else '1';
+                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val >= x"F0" ) else '1';
+                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val >= x"F0" ) else '1';
             end if;
         end if;
     end process;
@@ -250,12 +250,12 @@ begin
     
     INP2(7)    => '1',                       -- unknown
     INP2(6)    => '1',                       -- unknown
-    INP2(5)    => keyboard_n(m65_2),         -- start 2
-    INP2(4)    => keyboard_n(m65_1),         -- start 1                           
+    INP2(5)    => keyboard_n(m65_2) and (joy_2_left_n_i or joy_2_right_n_i),         -- start 2
+    INP2(4)    => keyboard_n(m65_1) and (joy_1_left_n_i or joy_1_right_n_i),         -- start 1                           
     INP2(3)    => keyboard_n(m65_s),         -- service button
     INP2(2)    => keyboard_n(m65_d),         -- service mode
-    INP2(1)    => keyboard_n(m65_6),         -- coin 2
-    INP2(0)    => keyboard_n(m65_5),         -- coin 1
+    INP2(1)    => keyboard_n(m65_6) and (joy_2_up_n_i or joy_2_down_n_i),         -- coin 2
+    INP2(0)    => keyboard_n(m65_5) and (joy_1_up_n_i or joy_1_down_n_i),         -- coin 1
     
     system2    => '1',
     rowscroll  => '0', -- global scroll on.
