@@ -172,12 +172,12 @@ begin
 
             if pot_pol_sw = '1' then -- enable 0x1 = active low
                 -- POT polarity:'0' = active low (Amiga style)
-                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val <= x"0f" ) else '1';
-                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val <= x"0f" ) else '1';
+                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val < x"80" ) else '1';
+                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val < x"80" ) else '1';
             else
                 -- POT polarity: '1' = active high (C64GS style),
-                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val >= x"F0" ) else '1';
-                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val >= x"F0" ) else '1';
+                jump1_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot1_val >= x"80" ) else '1';
+                jump2_button_n <= '0' when (keyboard_n(m65_mega) = '0' or pot2_val >= x"80" ) else '1';
             end if;
         end if;
     end process;
