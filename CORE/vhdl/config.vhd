@@ -76,7 +76,7 @@ type WHS_RECORD_ARRAY_TYPE is array (0 to WHS_RECORDS - 1) of WHS_RECORD_TYPE;
 
 constant SCR_WELCOME : string :=
 
-   "Sega-Choplifter V0.5.0 (beta)\n"      &
+   "Sega-Choplifter V0.5.1       \n"      &
    "-----------------------------\n"      &
    "\n" &
    "MiSTer port done by Muse in 2025\n\n" &
